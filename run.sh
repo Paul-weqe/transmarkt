@@ -1,0 +1,1 @@
+scrapy runspider main.py -s USER_AGENT='custom user agent' -o bundersliga.json
