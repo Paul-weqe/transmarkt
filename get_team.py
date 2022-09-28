@@ -26,14 +26,13 @@ class FetchTeamSpider(scrapy.Spider):
             name = row.css("td:nth-of-type(2) table td.hauptlink a::text").get()
             link = row.css("td:nth-of-type(2) table td.hauptlink a::attr('href')").get()
             position = row.css("td:nth-of-type(2) table tr:nth-of-type(2) td::text").get()
-            
+
             yield {
                 "name": name,
                 "link": link,
                 "position": position
             }
-
-
+        
 leagues_json = list(pathlib.Path(f"{os.getcwd()}/json/leagues").glob("*.json"))
 leagues_list = {}
 
@@ -42,9 +41,6 @@ for league in leagues_json:
     with open(filename, "r") as file:
         full_file_pathname = os.path.splitext(filename)[0]
         league_name = full_file_pathname.split("/")[-1]
-        print("." * 20)
-        print(leagues_list.keys())
-        print(file)
         leagues_list[str(league_name)] = json.load(file)
 
 def run_teams():
@@ -70,20 +66,5 @@ def run_teams():
             })
     process.start()
 
-# run_teams()
+run_teams()
 
-
-team_name = "AFC Bournemouth"
-process = CrawlerProcess(settings = {
-    'FEEDS': {
-        'bourn.json': {'format': 'json'}
-        # f'json/teams/premier-league/{team_name}.json': {"format": "json"}
-    },
-    "USER_AGENT": "this team agent"
-})
-process.crawl(FetchTeamSpider, kwargs={
-    'start_urls': ['https://www.transfermarkt.com/afc-bournemouth/startseite/verein/989/saison_id/2022',],
-    'team_name': team_name,
-    'name': team_name,
-    'league_name': 'premier-league'
-})

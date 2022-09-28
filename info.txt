@@ -1,0 +1,91 @@
+....................
+0
+<span class="info-table__content info-table__content--regular">Name in home country:</span>
+....................
+1
+<span class="info-table__content info-table__content--bold">Unai Simón Mendibil</span>
+....................
+2
+<span class="info-table__content info-table__content--regular">Date of birth:</span>
+....................
+3
+<span class="info-table__content info-table__content--bold"><a href="/aktuell/waspassiertheute/aktuell/new/datum/1997-06-11">Jun 11, 1997</a> </span>
+....................
+4
+<span class="info-table__content info-table__content--regular">Place of birth:</span>
+....................
+5
+<span class="info-table__content info-table__content--bold">
+<span>Vitoria-Gasteiz  <img alt="Spain" class="flaggenrahmen lazy lazy" data-src="https://tmssl.akamaized.net/images/flagge/tiny/157.png?lm=1520611569" src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" title="Spain"/></span> </span>
+....................
+6
+<span class="info-table__content info-table__content--regular">Age:</span>
+....................
+7
+<span class="info-table__content info-table__content--bold">25</span>
+....................
+8
+<span class="info-table__content info-table__content--regular">Height:</span>
+....................
+9
+<span class="info-table__content info-table__content--bold">1,90 m</span>
+....................
+10
+<span class="info-table__content info-table__content--regular">Citizenship:</span>
+....................
+11
+<span class="info-table__content info-table__content--bold">
+<img alt="Spain" class="flaggenrahmen" src="https://tmssl.akamaized.net/images/flagge/tiny/157.png?lm=1520611569" title="Spain"/>  Spain                            </span>
+....................
+12
+<span class="info-table__content info-table__content--regular">Position:</span>
+....................
+13
+<span class="info-table__content info-table__content--bold">
+                            Goalkeeper                        </span>
+....................
+14
+<span class="info-table__content info-table__content--regular">Foot:</span>
+....................
+15
+<span class="info-table__content info-table__content--bold">right</span>
+....................
+16
+<span class="info-table__content info-table__content--regular">Player agent:</span>
+....................
+17
+<span class="info-table__content info-table__content--bold info-table__content--flex">
+<a href="/icm-stellar-sports/beraterfirma/berater/190">ICM Stellar Sports</a> <img alt="Verified" height="13" src="https://tmsi.akamaized.net/berater/verified_premium_minified.png" title="Verified" width="13"/>
+</span>
+....................
+18
+<span class="info-table__content info-table__content--regular">
+                            Current club:
+                        </span>
+....................
+19
+<span class="info-table__content info-table__content--bold info-table__content--flex">
+<a href="/athletic-bilbao/startseite/verein/621">
+<img alt="Athletic Bilbao" height="15" srcset="https://tmssl.akamaized.net/images/wappen/small/621.png?lm=1565768743 1x,
+                                            https://tmssl.akamaized.net/images/wappen/homepage/621.png?lm=1565768743 2x" width="15"/>
+</a>
+<a href="/athletic-bilbao/startseite/verein/621" title="Athletic Bilbao">Athletic Bilbao</a> </span>
+....................
+20
+<span class="info-table__content info-table__content--regular">Joined:</span>
+....................
+21
+<span class="info-table__content info-table__content--bold">
+                                Jul 1, 2018                            </span>
+....................
+22
+<span class="info-table__content info-table__content--regular">Contract expires:</span>
+....................
+23
+<span class="info-table__content info-table__content--bold">Jun 30, 2025</span>
+....................
+24
+<span class="info-table__content info-table__content--regular info-table__span--line-height">Date of last contract extension:</span>
+....................
+25
+<span class="info-table__content info-table__content--bold info-table__span--specific">Aug 20, 2020</span>
