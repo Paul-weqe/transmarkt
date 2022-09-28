@@ -1,0 +1,3 @@
+from src.detailed_players import fetch_detailed_players
+
+fetch_detailed_players()
