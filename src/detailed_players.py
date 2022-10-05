@@ -5,43 +5,10 @@ import json
 import os
 from scrapy.crawler import CrawlerProcess
 from bs4 import BeautifulSoup
+from src.extensions import SqlContext, INSERT_SQL
+
 
 ROOT_URL = "https://www.transfermarkt.com"
-
-INSERT_SQL = """
-INSERT INTO players( 
-    name, date_of_birth, place_of_birth, 
-    age, height, citizenship, 
-    position, foot, player_agent, 
-    club, date_joined, contract_expires, 
-    outfitter, max_value, max_value_date, 
-    current_value, last_contract_extension, club, url) VALUES (
-        ?, ?, ?, 
-        ?, ?, ?, 
-        ?, ?, ?, 
-        ?, ?, ?, 
-        ?, ?, ?,
-        ?, ?, ?,
-        ?
-    ) 
-"""
-
-@dataclass
-class SQL:
-    conn: sqlite3.Connection
-    curr: sqlite3.Cursor
-
-
-class SqlContext(object):
-    def __init__(self):
-        self.connect = sqlite3.connect("players.db")
-        self.cursor = self.connect.cursor()
-
-    def __enter__(self):
-        return SQL(conn=self.connect, curr=self.cursor)
-
-    def __exit__(self, type, value, traceback):
-        self.connect.close()
 
 
 class DetailedPlayersSpider(scrapy.Spider):
@@ -62,7 +29,8 @@ class DetailedPlayersSpider(scrapy.Spider):
         headline_wrapper = response.css(".data-header__headline-wrapper")
         shirt_number = self.strip_string(headline_wrapper.css("span::text").get())
         beauty_soup = BeautifulSoup(str(headline_wrapper.get()), features='lxml')
-        full_name = self.strip_string(beauty_soup.get_text().replace(shirt_number, ""))
+        full_name = beauty_soup.get_text()
+        full_name = self.strip_string(full_name.replace(shirt_number, "")) if full_name is not None else full_name
         
         
 
@@ -75,6 +43,7 @@ class DetailedPlayersSpider(scrapy.Spider):
                 
                 url = response.request.url
                 info_spans = table.css(".info-table__content").extract()
+                
                 info = {
                     "Name": None, 
                     "Date of birth": None, 
@@ -94,6 +63,7 @@ class DetailedPlayersSpider(scrapy.Spider):
                     "Max Value Date": max_value_date,
                     "Last Contract Extension": None,
                 }
+                
                 info["Url"] = url
                 info["Name"] = f"{full_name}"
                 n = 2
@@ -169,7 +139,7 @@ class DetailedPlayersSpider(scrapy.Spider):
                 sql.conn.commit()
                 sql.conn.close()
 
-                yield info 
+                yield info
 
 def create_db():
     if not os.path.isfile("players.db"):
