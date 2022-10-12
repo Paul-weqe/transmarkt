@@ -30,9 +30,9 @@ class DetailedPlayersSpider(scrapy.Spider):
         shirt_number = self.strip_string(headline_wrapper.css("span::text").get())
         beauty_soup = BeautifulSoup(str(headline_wrapper.get()), features='lxml')
         full_name = beauty_soup.get_text()
-        full_name = self.strip_string(full_name.replace(shirt_number, "")) if full_name is not None else full_name
         
-        
+        if full_name is not None:
+            full_name = self.strip_string(full_name.replace(shirt_number, "")) 
 
         for table in response.css("div.info-table"):
             with SqlContext() as sql:
@@ -40,7 +40,9 @@ class DetailedPlayersSpider(scrapy.Spider):
                 current_value = self.strip_string( response.css(".tm-player-market-value-development__current-value::text").get() )
                 max_value = self.strip_string( response.css(".tm-player-market-value-development__max-value::text").get() )
                 max_value_date = self.strip_string( response.css(".tm-player-market-value-development__max div:nth-of-type(3)::text").get() )
-                
+
+                league_name = self.strip_string( response.css('a.data-header__league-link img::attr("title")').get() )
+
                 url = response.request.url
                 info_spans = table.css(".info-table__content").extract()
                 
@@ -53,6 +55,7 @@ class DetailedPlayersSpider(scrapy.Spider):
                     "Position": None,
                     "Foot": None,
                     "Player Agent": None,
+                    "Agent Link": None,
                     "Current Club": None,
                     "Joined": None,
                     "Contract Expires": None,
@@ -62,6 +65,7 @@ class DetailedPlayersSpider(scrapy.Spider):
                     "Max Value": max_value,
                     "Max Value Date": max_value_date,
                     "Last Contract Extension": None,
+                    "League Name": league_name
                 }
                 
                 info["Url"] = url
@@ -97,6 +101,8 @@ class DetailedPlayersSpider(scrapy.Spider):
                         
                         case "Player agent:":
                             info["Player Agent"] = value
+                            link = BeautifulSoup(info_pair[1].strip(), features='lxml').a['href']
+                            info["Agent Link"] = f"{ROOT_URL}{link}" 
                         
                         case "Current club:":
                             info["Current Club"] = value
@@ -112,6 +118,7 @@ class DetailedPlayersSpider(scrapy.Spider):
                         
                         case "Date of last contract extension:":
                             info["Last Contract Extension"] = value
+                
                         
                 current_value = self.strip_string( current_value )
 
@@ -134,7 +141,9 @@ class DetailedPlayersSpider(scrapy.Spider):
                     info["Current Value"],
                     info["Last Contract Extension"],
                     info["Current Club"],
-                    info["Url"]
+                    info["Url"], 
+                    info["League Name"],
+                    info["Agent Link"]
                 ))
                 sql.conn.commit()
                 sql.conn.close()
@@ -152,7 +161,7 @@ def create_db():
                 player_agent_link, club, date_joined,
                 contract_expires, last_contract_extension, outfitter, 
                 current_value, max_value, max_value_date,
-                url
+                url, league_name
             )
         """
         cur = con.cursor()

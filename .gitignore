@@ -2,3 +2,6 @@ json/*
 venv/
 *__pycache__*
 players.db
+updated-players.csv
+data.csv
+players.csv

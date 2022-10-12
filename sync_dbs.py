@@ -1,11 +1,13 @@
+from functools import lru_cache
 from src.merge_csv import fetch_csv, fetch_sqlite3
 from pprint import pprint as pp
-from src.extensions import FileContext, SqlContext
+from src.extensions import SqlContext
 import csv
 
-csv_path = "/home/waswa/projects/python/transfermarkt/players.csv"
+csv_path = "players.csv"
+db_path = "players.db"
+sqlite_players_res = fetch_sqlite3(db_path)
 
-sqlite_players_res = fetch_sqlite3("/home/waswa/projects/python/transfermarkt/players.db")
 csv_players_res = fetch_csv(csv_path)
 players_relations = {}
 
@@ -26,11 +28,10 @@ new_columns = [
     "foot", "player_agent", "player_agent_link",
     "club", "date_joined", "contract_expires",
     "last_contract_extension", "outfitter", "current_value",
-    "max_value", "max_value_date", "player_url"
+    "max_value", "max_value_date", "player_url", "league_name"
 ]
-here_count = 0
 
-with open(csv_path) as file_reader, open("final-draft.csv", "w", newline='') as file_writer:
+with open(csv_path) as file_reader, open("updated-players.csv", "w", newline='') as file_writer:
     csv_reader = csv.reader(file_reader, delimiter=',')
     csv_writer = csv.writer(file_writer, delimiter=',')
     counter = 1
