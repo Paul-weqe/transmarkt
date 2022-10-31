@@ -1,5 +1,9 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
+import random
+
+# Random string of length 5
+user_agent = ''.join((random.choice('abcdefghijklmnopqrstuvwxyz1234567890@') for i in range(10)))
 
 class FetchLeagueSpider(scrapy.Spider):
 
@@ -47,12 +51,14 @@ def fetch_leagues():
         'https://www.transfermarkt.com/eliteserien/startseite/wettbewerb/NO1', # Norweigian league
     ]
 
+    
+
     process = CrawlerProcess()
     process = CrawlerProcess(settings = {
         "FEEDS": {
             f"json/teams.json": { "format": "json" }
         },
-        "USER_AGENT": f"Random agent"
+        "USER_AGENT": user_agent
     })
     process.crawl(FetchLeagueSpider, kwargs={
         'name': "Leagues Crawler",

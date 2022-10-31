@@ -28,7 +28,8 @@ new_columns = [
     "foot", "player_agent", "player_agent_link",
     "club", "date_joined", "contract_expires",
     "last_contract_extension", "outfitter", "current_value",
-    "max_value", "max_value_date", "player_url", "league_name"
+    "max_value", "max_value_date", "player_url", "league_name", 
+    "on_loan"
 ]
 
 with open(csv_path) as file_reader, open("updated-players.csv", "w", newline='') as file_writer:

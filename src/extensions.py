@@ -41,13 +41,14 @@ INSERT INTO players(
     club, date_joined, contract_expires, 
     outfitter, max_value, max_value_date, 
     current_value, last_contract_extension, club, 
-    url, league_name, player_agent_link) VALUES (
+    url, league_name, player_agent_link, on_loan) VALUES (
         ?, ?, ?, 
         ?, ?, ?, 
         ?, ?, ?, 
         ?, ?, ?, 
         ?, ?, ?,
         ?, ?, ?,
-        ?, ?, ?
+        ?, ?, ?,
+        ?
     ) 
 """
