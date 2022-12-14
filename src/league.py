@@ -29,7 +29,7 @@ def fetch_leagues():
 
     leagues = [
         'https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB1', # Premier League
-        'https://www.transfermarkt.com/championship/startseite/wettbewerb/GB2' #Championship
+        'https://www.transfermarkt.com/championship/startseite/wettbewerb/GB2', #Championship
         'https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3', # League 1
         'https://www.transfermarkt.com/league-two/startseite/wettbewerb/GB4', # League 2
         'https://www.transfermarkt.com/ligue-1/startseite/wettbewerb/FR1', # French League 1
