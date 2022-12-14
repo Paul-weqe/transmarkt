@@ -51,9 +51,6 @@ def fetch_leagues():
         'https://www.transfermarkt.com/eliteserien/startseite/wettbewerb/NO1', # Norweigian league
     ]
 
-    
-
-    process = CrawlerProcess()
     process = CrawlerProcess(settings = {
         "FEEDS": {
             f"json/teams.json": { "format": "json" }
@@ -65,4 +62,3 @@ def fetch_leagues():
         'start_urls': leagues
     })
     process.start()
-

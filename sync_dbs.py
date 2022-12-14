@@ -1,10 +1,9 @@
-from functools import lru_cache
 from src.merge_csv import fetch_csv, fetch_sqlite3
-from pprint import pprint as pp
 from src.extensions import SqlContext
+from datetime import datetime
 import csv
 
-csv_path = "players.csv"
+csv_path = "initial-data.csv"
 db_path = "players.db"
 sqlite_players_res = fetch_sqlite3(db_path)
 
@@ -14,12 +13,23 @@ players_relations = {}
 for player in  sqlite_players_res:
 
     name = player[0]
+    date_of_birth = player[1]
+
+    try:
+        dob = datetime.strptime(date_of_birth.strip(), "%b %d, %Y")
+    except Exception as e:
+        dob = None
 
     for player2 in csv_players_res:
         csv_name = player2[2]
         player_id = player2[15]
+        try:
+            csv_dob = datetime.strptime(player2[10].strip(), "%Y-%m-%d")
+        except Exception as e:
+            csv_dob = None
 
-        if name == csv_name:
+
+        if name == csv_name and dob == csv_dob:
             players_relations[str(player_id)] = name
 
 new_columns = [
@@ -32,7 +42,7 @@ new_columns = [
     "on_loan"
 ]
 
-with open(csv_path) as file_reader, open("updated-players.csv", "w", newline='') as file_writer:
+with open(csv_path) as file_reader, open("data.csv", "w", newline='') as file_writer:
     csv_reader = csv.reader(file_reader, delimiter=',')
     csv_writer = csv.writer(file_writer, delimiter=',')
     counter = 1
@@ -58,4 +68,5 @@ with open(csv_path) as file_reader, open("updated-players.csv", "w", newline='')
                 if player:
                     for info in player:
                         row.append(info)
-                    csv_writer.writerow(row)
+
+        csv_writer.writerow(row)

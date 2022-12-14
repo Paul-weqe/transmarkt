@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import sqlite3
 import scrapy
 import json
@@ -79,11 +78,11 @@ class DetailedPlayersSpider(scrapy.Spider):
                 
                 
                 info = {
-                    "Name": None, 
-                    "Date of birth": None, 
-                    "Place of birth": None, 
+                    "Name": None,
+                    "Date of birth": None,
+                    "Place of birth": None,
                     "Age": None,
-                    "Height": None, 
+                    "Height": None,
                     "Position": None,
                     "Foot": None,
                     "Player Agent": None,
@@ -101,7 +100,7 @@ class DetailedPlayersSpider(scrapy.Spider):
                     "On Loan": False
                 }
 
-                
+
                 info["Url"] = url
                 info["Name"] = f"{full_name}"
                 n = 2
@@ -221,8 +220,7 @@ def fetch_detailed_players():
         
     for x in file_data:
         links.append(f"https://www.transfermarkt.com{x['link']}")
-    
-    process = CrawlerProcess()
+
     process = CrawlerProcess(settings = {
         "FEEDS": {
             f"json/detailed_players.json": {"format": "json"}
