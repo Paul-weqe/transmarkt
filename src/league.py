@@ -62,3 +62,4 @@ def fetch_leagues():
         'start_urls': leagues
     })
     process.start()
+
