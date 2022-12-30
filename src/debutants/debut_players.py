@@ -1,5 +1,7 @@
 import scrapy
 import random
+from src.general import get_all_paginator_links
+import _thread
 
 user_agent = ''.join((random.choice('abcdefghijklmnopqrstuvwxyz1234567890@') for i in range(10)))
 
@@ -18,7 +20,7 @@ class FetchDebutantsSpider(scrapy.Spider):
 
     @staticmethod
     def fetch_urls() -> list:
-        return [
+        initial_links = [
             'https://www.transfermarkt.co.uk/premier-league/profidebuetanten/wettbewerb/GB1/',
             'https://www.transfermarkt.co.uk/championship/profidebuetanten/wettbewerb/GB2',
             'https://www.transfermarkt.co.uk/league-one/profidebuetanten/wettbewerb/GB3',
@@ -40,9 +42,19 @@ class FetchDebutantsSpider(scrapy.Spider):
             'https://www.transfermarkt.co.uk/bundesliga/profidebuetanten/wettbewerb/A1',
             'https://www.transfermarkt.co.uk/allsvenskan/profidebuetanten/wettbewerb/SE1',
             'https://www.transfermarkt.co.uk/eliteserien/profidebuetanten/wettbewerb/NO1',
+            'https://www.transfermarkt.co.uk/allsvenskan/profidebuetanten/wettbewerb/SE1',
         ]
+        paginated_links = []
+
+        for link in initial_links:
+            # new_links = _thread.start_new_thread(get_all_paginator_links, link)
+            # print(new_links)
+            paginated_links += get_all_paginator_links(link)
+
+        return paginated_links
 
     def parse(self, response, **kwargs):
+
         for row in response.css("div#yw1 table tbody tr.odd, div#yw1 table tbody tr.even"):
             player_link = row.css("td:nth-of-type(1) table td.hauptlink a::attr('href')").get()
             player_name = row.css("td:nth-of-type(1) table td.hauptlink a::text").get()
@@ -51,3 +63,8 @@ class FetchDebutantsSpider(scrapy.Spider):
                 'name': player_name,
                 'link': f"https://www.transfermarkt.co.uk{player_link}"
             }
+
+
+
+
+
