@@ -9,7 +9,7 @@ from src.extensions import SqlContext
 
 class DetailedDebutantPlayersSpider(scrapy.Spider):
     start_urls = []
-    name = None
+    name = "detailed debutant players spider"
     custom_settings = {
         "FEEDS": {
             f"csv/detailed_debutants.csv": {"format": "csv"}
@@ -17,11 +17,10 @@ class DetailedDebutantPlayersSpider(scrapy.Spider):
         "USER_AGENT": "Random Agent"
     }
 
-    def __init__(self, **kwargs):
-        self.start_urls = self.fetch_urls()
+    def __init__(self):
 
         scrapy.Spider.__init__(self, name=self.name)
-        self.start_urls = self.start_urls
+        self.start_urls = self.fetch_urls()
 
     @staticmethod
     def fetch_urls() -> list:
@@ -90,31 +89,12 @@ class DetailedDebutantPlayersSpider(scrapy.Spider):
                 url = response.request.url
                 info_spans = table.css(".info-table__content").extract()
 
-                info = {
-                    "Name": None,
-                    "Date of birth": None,
-                    "Place of birth": None,
-                    "Age": None,
-                    "Height": None,
-                    "Position": None,
-                    "Foot": None,
-                    "Player Agent": None,
-                    "Agent Link": None,
-                    "Current Club": None,
-                    "Joined": None,
-                    "Contract Expires": None,
-                    "Outfitter": None,
-                    "Url": None,
-                    "Current Value": current_value,
-                    "Max Value": max_value,
-                    "Max Value Date": max_value_date,
-                    "Last Contract Extension": None,
-                    "League Name": league_name,
-                    "On Loan": False
-                }
+                info = {"Name": f"{full_name}", "Date of birth": None, "Place of birth": None, "Age": None,
+                        "Height": None, "Position": None, "Foot": None, "Player Agent": None, "Agent Link": None,
+                        "Current Club": None, "Joined": None, "Contract Expires": None, "Outfitter": None, "Url": url,
+                        "Current Value": current_value, "Max Value": max_value, "Max Value Date": max_value_date,
+                        "Last Contract Extension": None, "League Name": league_name, "On Loan": False}
 
-                info["Url"] = url
-                info["Name"] = f"{full_name}"
                 n = 2
 
                 for x in range(0, len(info_spans) - n + 1, n):
@@ -172,34 +152,6 @@ class DetailedDebutantPlayersSpider(scrapy.Spider):
                             info["Last Contract Extension"] = value
 
                 current_value = self.strip_string(current_value)
-
-                sql.curr.execute(INSERT_SQL, (
-                    info["Name"],
-                    info["Date of birth"],
-                    info["Place of birth"],
-                    info["Age"],
-                    info["Height"],
-                    info["Citizenship"],
-                    info["Position"],
-                    info["Foot"],
-                    info["Player Agent"],
-                    info["Current Club"],
-                    info["Joined"],
-                    info["Contract Expires"],
-                    info["Outfitter"],
-                    info["Max Value"],
-                    info["Max Value Date"],
-                    info["Current Value"],
-                    info["Last Contract Extension"],
-                    info["Current Club"],
-                    info["Url"],
-                    info["League Name"],
-                    info["Agent Link"],
-                    str(info["On Loan"])
-                ))
-                sql.conn.commit()
-                sql.conn.close()
-
                 yield info
 
 def fetch_detailed_debutants():
@@ -211,15 +163,6 @@ def fetch_detailed_debutants():
     for x in file_data:
         links.append(x['link'])
 
-    process = CrawlerProcess(settings = {
-        "FEEDS": {
-            f"csv/detailed_debutants.csv": { "format": "csv" }
-        },
-        "USER_AGENT": "Random Agent"
-    })
-
-    process.crawl(DetailedPlayersSpider, kwargs={
-        'name': 'Detailed Debutants Crawler',
-        'start_urls': links
-    })
+    process = CrawlerProcess()
+    process.crawl(DetailedPlayersSpider)
     process.start()
