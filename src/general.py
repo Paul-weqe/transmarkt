@@ -9,14 +9,16 @@ BASE_URL = "https://www.transfermarkt.co.uk"
 # that will need to be paginated across. This will give us how to do that.
 def get_all_paginator_links(page_link: str) -> list:
     user_agent = ''.join((random.choice('abcdefghijklmnopqrstuvwxyz1234567890@') for i in range(10)))
+
     response = requests.get(page_link, headers={'User-Agent': user_agent})
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    list_links =  soup.select(".tm-pagination__list-item:not(.tm-pagination__list-item--icon-first-page)"
-                ":not(.tm-pagination__list-item--icon-previous-page)"
-                ":not(.tm-pagination__list-item--icon-next-page)"
-                ":not(.tm-pagination__list-item--icon-last-page)"
-                    )
+    list_links =  soup.select(
+        ".tm-pagination__list-item:not(.tm-pagination__list-item--icon-first-page)"
+        ":not(.tm-pagination__list-item--icon-previous-page)"
+        ":not(.tm-pagination__list-item--icon-next-page)"
+        ":not(.tm-pagination__list-item--icon-last-page)"
+    )
 
     links = []
     if len(list_links) == 0:
