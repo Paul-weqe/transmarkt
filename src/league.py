@@ -29,13 +29,13 @@ def fetch_leagues():
 
     leagues = [
         'https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB1', # Premier League
-        'https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB2' #Championship
+        'https://www.transfermarkt.com/championship/startseite/wettbewerb/GB2', #Championship
         'https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3', # League 1
-        'https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB4', # League 2
+        'https://www.transfermarkt.com/league-two/startseite/wettbewerb/GB4', # League 2
         'https://www.transfermarkt.com/ligue-1/startseite/wettbewerb/FR1', # French League 1
-        'https://www.transfermarkt.com/ligue-1/startseite/wettbewerb/FR2', # French League 2
+        'https://www.transfermarkt.com/ligue-2/startseite/wettbewerb/FR2', # French League 2
         'https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/L1', # German Bundersliga
-        'https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/L2', # Bundersliga 2
+        'https://www.transfermarkt.com/2-bundesliga/startseite/wettbewerb/L2', # Bundersliga 2
         'https://www.transfermarkt.com/serie-a/startseite/wettbewerb/IT1', # Italy Series A
         'https://www.transfermarkt.com/laliga/startseite/wettbewerb/ES1', # La Liga
         'https://www.transfermarkt.com/jupiler-pro-league/startseite/wettbewerb/BE1', # Belgium Jupiter League
@@ -51,9 +51,6 @@ def fetch_leagues():
         'https://www.transfermarkt.com/eliteserien/startseite/wettbewerb/NO1', # Norweigian league
     ]
 
-    
-
-    process = CrawlerProcess()
     process = CrawlerProcess(settings = {
         "FEEDS": {
             f"json/teams.json": { "format": "json" }

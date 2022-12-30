@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import sqlite3
 import scrapy
 import json
@@ -14,17 +13,48 @@ ROOT_URL = "https://www.transfermarkt.com"
 class DetailedPlayersSpider(scrapy.Spider):
     start_urls = [ ]
     name = None
+    custom_settings = {
+        "FEEDS": {
+            f"json/detailed_players.json": {"format": "json"}
+        },
+        "USER_AGENT": "Random Agent"
+    }
 
     def __init__(self, **kwargs):
-        scrapy.Spider.__init__(self, name=kwargs['kwargs']['name'])
-        self.start_urls = kwargs['kwargs']['start_urls']
-    
-    def strip_string(self, input_):
+        kwargs = kwargs['kwargs']
+
+        if kwargs['name'] is None:
+            self.name = "Detailed Players Crawler"
+
+        if 'custom_settings' in kwargs and kwargs['custom_settings'] is not None:
+            self.custom_settings = kwargs['custom_settings']
+
+        if 'start_urls' in kwargs and kwargs['start_urls'] is not None:
+            self.start_urls = self.fetch_urls()
+
+        scrapy.Spider.__init__(self, name=kwargs['name'])
+        self.start_urls = self.start_urls
+
+    @staticmethod
+    def fetch_urls() -> list:
+        links = []
+
+        with open("json/players.json") as file:
+            file_data = json.load(file)
+            file.close()
+
+        for x in file_data:
+            links.append(f"https://www.transfermarkt.com{x['link']}")
+        return links
+
+    @staticmethod
+    def strip_string(input_):
         if type(input_) is str:
             return input_.strip()
         return input_
-    
-    def change_currency_to_numbers(self, number_str: str):
+
+    @staticmethod
+    def change_currency_to_numbers(number_str: str):
         currency = number_str[0]
 
         if number_str[-1:] == ".":
@@ -67,7 +97,6 @@ class DetailedPlayersSpider(scrapy.Spider):
                 current_value = self.change_currency_to_numbers(str(current_value))
 
                 max_value = self.strip_string( response.css(".tm-player-market-value-development__max-value::text").get() )
-                # max_value = self.change_currency_to_numbers(str(max_value))
 
                 max_value_date = self.strip_string( response.css(".tm-player-market-value-development__max div:nth-of-type(3)::text").get() )
 
@@ -79,11 +108,11 @@ class DetailedPlayersSpider(scrapy.Spider):
                 
                 
                 info = {
-                    "Name": None, 
-                    "Date of birth": None, 
-                    "Place of birth": None, 
+                    "Name": None,
+                    "Date of birth": None,
+                    "Place of birth": None,
                     "Age": None,
-                    "Height": None, 
+                    "Height": None,
                     "Position": None,
                     "Foot": None,
                     "Player Agent": None,
@@ -101,7 +130,7 @@ class DetailedPlayersSpider(scrapy.Spider):
                     "On Loan": False
                 }
 
-                
+
                 info["Url"] = url
                 info["Name"] = f"{full_name}"
                 n = 2
@@ -215,14 +244,14 @@ def create_db():
 
 def fetch_detailed_players():
     links = []
-    file_data = None
+
     with open("json/players.json") as file:
         file_data = json.load(file)
-        
+        file.close()
+
     for x in file_data:
         links.append(f"https://www.transfermarkt.com{x['link']}")
-    
-    process = CrawlerProcess()
+
     process = CrawlerProcess(settings = {
         "FEEDS": {
             f"json/detailed_players.json": {"format": "json"}

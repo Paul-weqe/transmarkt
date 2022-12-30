@@ -1,4 +1,5 @@
 json/*
+csv/*
 venv/
 *__pycache__*
 players.db

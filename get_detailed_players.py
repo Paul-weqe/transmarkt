@@ -1,4 +1,3 @@
-from venv import create
 from src.detailed_players import fetch_detailed_players, create_db
 
 create_db()
