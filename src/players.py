@@ -30,11 +30,9 @@ class FetchTeamSpider(scrapy.Spider):
 
 def fetch_players():
     filename = "json/teams.json"
-    leagues_list = []
     with open(filename, "r") as file:
         leagues_list = json.load(file)
-    
-    process = CrawlerProcess()
+
     links = []
     for league in leagues_list:
         links.append(f"https://www.transfermarkt.com{league['link']}")
