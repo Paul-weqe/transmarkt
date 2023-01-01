@@ -1,3 +1,4 @@
+from unidecode import unidecode
 import sqlite3
 import scrapy
 import json
@@ -5,6 +6,7 @@ import os
 from scrapy.crawler import CrawlerProcess
 from bs4 import BeautifulSoup
 from src.extensions import SqlContext, INSERT_SQL
+from pprint import pprint as pp
 
 
 ROOT_URL = "https://www.transfermarkt.com"
@@ -12,7 +14,7 @@ ROOT_URL = "https://www.transfermarkt.com"
 
 class DetailedPlayersSpider(scrapy.Spider):
     start_urls = [ ]
-    name = None
+    name = "Detailed Players Crawler"
     custom_settings = {
         "FEEDS": {
             f"json/detailed_players.json": {"format": "json"}
@@ -20,20 +22,20 @@ class DetailedPlayersSpider(scrapy.Spider):
         "USER_AGENT": "Random Agent"
     }
 
-    def __init__(self, **kwargs):
-        kwargs = kwargs['kwargs']
+    def __init__(self):
+        # kwargs = kwargs['kwargs']
 
-        if kwargs['name'] is None:
-            self.name = "Detailed Players Crawler"
+        # if kwargs['name'] is None:
+        #     self.name = "Detailed Players Crawler"
 
-        if 'custom_settings' in kwargs and kwargs['custom_settings'] is not None:
-            self.custom_settings = kwargs['custom_settings']
+        # if 'custom_settings' in kwargs and kwargs['custom_settings'] is not None:
+        #     self.custom_settings = kwargs['custom_settings']
 
-        if 'start_urls' in kwargs and kwargs['start_urls'] is not None:
-            self.start_urls = self.fetch_urls()
+        # if 'start_urls' in kwargs and kwargs['start_urls'] is not None:
+        #     self.start_urls = self.fetch_urls()
 
-        scrapy.Spider.__init__(self, name=kwargs['name'])
-        self.start_urls = self.start_urls
+        scrapy.Spider.__init__(self, name=self.name)
+        self.start_urls = self.fetch_urls()
 
     @staticmethod
     def fetch_urls() -> list:
@@ -86,6 +88,7 @@ class DetailedPlayersSpider(scrapy.Spider):
                 full_name = self.strip_string(full_name.replace(shirt_number, "")) 
             else:
                 full_name = self.strip_string(full_name)
+
         for table in response.css("div.info-table"):
 
 
@@ -132,7 +135,7 @@ class DetailedPlayersSpider(scrapy.Spider):
 
 
                 info["Url"] = url
-                info["Name"] = f"{full_name}"
+                info["Name"] = unidecode(f"{full_name}")
                 n = 2
 
                 for x in range(0, len(info_spans)-n+1, n):
@@ -252,14 +255,6 @@ def fetch_detailed_players():
     for x in file_data:
         links.append(f"https://www.transfermarkt.com{x['link']}")
 
-    process = CrawlerProcess(settings = {
-        "FEEDS": {
-            f"json/detailed_players.json": {"format": "json"}
-        },
-        "USER_AGENT": "Random Agent"
-    })
-    process.crawl(DetailedPlayersSpider, kwargs={
-        'name': "Detailed Players Crawler",
-        "start_urls": links
-    })
+    process = CrawlerProcess()
+    process.crawl(DetailedPlayersSpider)
     process.start()

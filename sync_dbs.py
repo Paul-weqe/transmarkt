@@ -1,6 +1,7 @@
 from src.merge_csv import fetch_csv, fetch_sqlite3
 from src.extensions import SqlContext
 from datetime import datetime
+from unidecode import unidecode
 import csv
 
 csv_path = "initial-data.csv"
@@ -21,8 +22,9 @@ for player in  sqlite_players_res:
         dob = None
 
     for player2 in csv_players_res:
-        csv_name = player2[2]
+        csv_name = unidecode(player2[2])
         player_id = player2[15]
+
         try:
             csv_dob = datetime.strptime(player2[10].strip(), "%Y-%m-%d")
         except Exception as e:
