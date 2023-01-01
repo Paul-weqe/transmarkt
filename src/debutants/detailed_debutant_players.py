@@ -17,7 +17,7 @@ class DetailedDebutantPlayersSpider(scrapy.Spider):
     name = "detailed debutant players spider"
     custom_settings = {
         "FEEDS": {
-            f"csv/detailed_debutants.csv": {"format": "csv"}
+            f"csv/debutants.csv": {"format": "csv"}
         },
         "USER_AGENT": "Random Agent"
     }
