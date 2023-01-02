@@ -6,8 +6,6 @@ import os
 from scrapy.crawler import CrawlerProcess
 from bs4 import BeautifulSoup
 from src.extensions import SqlContext, INSERT_SQL
-from pprint import pprint as pp
-
 
 ROOT_URL = "https://www.transfermarkt.com"
 
@@ -23,16 +21,6 @@ class DetailedPlayersSpider(scrapy.Spider):
     }
 
     def __init__(self):
-        # kwargs = kwargs['kwargs']
-
-        # if kwargs['name'] is None:
-        #     self.name = "Detailed Players Crawler"
-
-        # if 'custom_settings' in kwargs and kwargs['custom_settings'] is not None:
-        #     self.custom_settings = kwargs['custom_settings']
-
-        # if 'start_urls' in kwargs and kwargs['start_urls'] is not None:
-        #     self.start_urls = self.fetch_urls()
 
         scrapy.Spider.__init__(self, name=self.name)
         self.start_urls = self.fetch_urls()
@@ -110,32 +98,12 @@ class DetailedPlayersSpider(scrapy.Spider):
 
                 
                 
-                info = {
-                    "Name": None,
-                    "Date of birth": None,
-                    "Place of birth": None,
-                    "Age": None,
-                    "Height": None,
-                    "Position": None,
-                    "Foot": None,
-                    "Player Agent": None,
-                    "Agent Link": None,
-                    "Current Club": None,
-                    "Joined": None,
-                    "Contract Expires": None,
-                    "Outfitter": None,
-                    "Url": None,
-                    "Current Value": current_value,
-                    "Max Value": max_value,
-                    "Max Value Date": max_value_date,
-                    "Last Contract Extension": None,
-                    "League Name": league_name,
-                    "On Loan": False
-                }
+                info = {"Name": unidecode(f"{full_name}"), "Date of birth": None, "Place of birth": None, "Age": None,
+                        "Height": None, "Position": None, "Foot": None, "Player Agent": None, "Agent Link": None,
+                        "Current Club": None, "Joined": None, "Contract Expires": None, "Outfitter": None, "Url": url,
+                        "Current Value": current_value, "Max Value": max_value, "Max Value Date": max_value_date,
+                        "Last Contract Extension": None, "League Name": league_name, "On Loan": False}
 
-
-                info["Url"] = url
-                info["Name"] = unidecode(f"{full_name}")
                 n = 2
 
                 for x in range(0, len(info_spans)-n+1, n):

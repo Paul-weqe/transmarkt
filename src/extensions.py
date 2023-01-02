@@ -2,6 +2,11 @@ from dataclasses import dataclass
 import sqlite3
 
 
+"""
+this file will be used to create context managers whenever needed 
+to connect to either databases, files etc...
+"""
+
 @dataclass
 class SQL:
     conn: sqlite3.Connection

@@ -1,18 +1,14 @@
 import re
 import datetime
-from dateutil.relativedelta import relativedelta
-
 import json
 import scrapy
 from bs4 import BeautifulSoup
-from scrapy.crawler import CrawlerProcess
-from src.detailed_players import DetailedPlayersSpider
 from src.extensions import SqlContext
-
+from dateutil.relativedelta import relativedelta
+from src.base_spider import BaseTransfermarktSpider
 
 ROOT_URL = "https://www.transfermarkt.co.uk"
-
-class DetailedDebutantPlayersSpider(scrapy.Spider):
+class DetailedDebutantPlayersSpider(BaseTransfermarktSpider):
     start_urls = []
     name = "detailed debutant players spider"
     custom_settings = {
@@ -38,31 +34,6 @@ class DetailedDebutantPlayersSpider(scrapy.Spider):
         for x in file_data:
             links.append(x['link'])
         return links
-
-    @staticmethod
-    def strip_string(input_):
-        if type(input_) is str:
-            return input_.strip()
-        return input_
-
-    @staticmethod
-    def change_currency_to_numbers(number_str: str):
-        currency = number_str[0]
-
-        if number_str[-1:] == ".":
-            number_str = number_str[:-1]
-
-        letter_representation = number_str[-1:]
-        if letter_representation == "m":
-            number = float(number_str[1:-1]) * 1_000_000
-            return f"{currency}{number}"
-
-        letter_representation = number_str[-2:]
-        if letter_representation == "Th":
-            number = float(number_str[1:-2]) * 1_000
-            return f"{currency}{number}"
-
-        return number_str
 
     def parse(self, response):
         headline_wrapper = response.css(".data-header__headline-wrapper")
@@ -191,19 +162,5 @@ class DetailedDebutantPlayersSpider(scrapy.Spider):
                     date_of_debut = date_of_debut.strftime("%b %d, %Y")
 
                 info["Date of debut"] = date_of_debut
-                current_value = self.strip_string(current_value)
                 yield info
-
-def fetch_detailed_debutants():
-    with open("json/debutants.json") as file:
-        file_data = json.load(file)
-        file.close()
-
-    links = []
-    for x in file_data:
-        links.append(x['link'])
-
-    process = CrawlerProcess()
-    process.crawl(DetailedPlayersSpider)
-    process.start()
 

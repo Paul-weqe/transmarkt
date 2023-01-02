@@ -1,4 +1,7 @@
-from src.league import fetch_leagues
+from scrapy.crawler import CrawlerProcess
+from src.players.league import FetchLeagueSpider
 
-fetch_leagues()
+process = CrawlerProcess()
+process.crawl(FetchLeagueSpider)
+process.start()
 
