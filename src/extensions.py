@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import sqlite3
-
+import csv
 
 """
 this file will be used to create context managers whenever needed 
@@ -57,3 +57,16 @@ INSERT INTO players(
         ?
     ) 
 """
+
+
+def fetch_csv(filepath: str):
+    with FileContext(filepath) as file:
+        csv_reader = csv.reader(file, delimiter=',')
+        next(csv_reader)
+        info = list(csv_reader)
+        return info
+
+def fetch_sqlite3():
+    with SqlContext() as sql:
+        res = sql.curr.execute("SELECT * FROM players")
+        return res.fetchall()

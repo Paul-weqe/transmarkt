@@ -1,14 +1,13 @@
-from src.merge_csv import fetch_csv, fetch_sqlite3
-from src.extensions import SqlContext
+from src.extensions import SqlContext, fetch_sqlite3, fetch_csv
 from datetime import datetime
 from unidecode import unidecode
 import csv
 
 csv_path = "initial-data.csv"
-db_path = "players.db"
-sqlite_players_res = fetch_sqlite3(db_path)
 
+sqlite_players_res = fetch_sqlite3()
 csv_players_res = fetch_csv(csv_path)
+
 players_relations = {}
 
 for player in  sqlite_players_res:

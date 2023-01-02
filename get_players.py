@@ -1,3 +1,6 @@
-from src.players import fetch_players
+from scrapy.crawler import CrawlerProcess
+from src.players.players_spider import FetchTeamSpider
 
-fetch_players()
+process = CrawlerProcess()
+process.crawl(FetchTeamSpider)
+process.start()

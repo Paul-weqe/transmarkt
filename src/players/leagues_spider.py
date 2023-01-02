@@ -15,7 +15,7 @@ class FetchLeagueSpider(BaseTransfermarktSpider):
 
     NOTE:
         - This does not have any spider/script that is required to run before it.
-        - FetchTeamSpider in players.py is usually run after this. This is used to fetch
+        - FetchTeamSpider in players_spider.py is usually run after this. This is used to fetch
             general information about the players from transfermarkt website.
     """
     custom_settings = {

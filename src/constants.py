@@ -1,3 +1,31 @@
+"""
+Leagues being fetched:
+    1. Premier League
+    2. Premier League
+    3. League 1
+    4. League 2
+    5. French League 1
+    6. French League 2
+    7. German Bundersliga
+    8. Bundersliga 2
+    9. Italy Series A
+    10. La Liga
+    11. Belgium Jupiter League
+    12. Dutch Eredevise
+    13. Portugal Premier League
+    14. Ukraine Premier League
+    15.Russian Premier League
+    16. Brazilian League
+    17. Argentinian League
+    18. Dannish League
+    19. Austrian Bundersliga
+    20. Swedish league
+    21. Norweigian league
+
+Any additions/deletions in leagues being made to any of the constants below, make sure to consider the
+above leagues/modify them
+"""
+
 
 LEAGUES_LINKS = [
     'https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB1', # Premier League
