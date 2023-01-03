@@ -1,6 +1,8 @@
 import random
 from src.base_spider import BaseTransfermarktSpider
 from src.constants import DEBUT_PLAYER_LINKS
+from src.debutants.items.debut_player_item import DebutPlayerItem
+
 user_agent = ''.join((random.choice('abcdefghijklmnopqrstuvwxyz1234567890@') for i in range(10)))
 
 class FetchDebutantsSpider(BaseTransfermarktSpider):
@@ -20,13 +22,11 @@ class FetchDebutantsSpider(BaseTransfermarktSpider):
         return paginated_links
 
     def parse(self, response, **kwargs):
-        for row in response.css("div#yw1 table tbody tr.odd, div#yw1 table tbody tr.even"):
-            player_link = row.css("td:nth-of-type(1) table td.hauptlink a::attr('href')").get()
-            player_name = row.css("td:nth-of-type(1) table td.hauptlink a::text").get()
-            age_at_debut = row.css("td:nth-of-type(6)::text").get()
 
-            yield {
-                'name': player_name,
-                'link': f"https://www.transfermarkt.co.uk{player_link}",
-                'age_at_debut': age_at_debut
-            }
+        for row in response.css("div#yw1 table tbody tr.odd, div#yw1 table tbody tr.even"):
+            link = row.css("td:nth-of-type(1) table td.hauptlink a::attr('href')").get()
+            player = DebutPlayerItem()
+            player['link'] = f"https://www.transfermarkt.co.uk{link}"
+            player['name'] = row.css("td:nth-of-type(1) table td.hauptlink a::text").get()
+            player['age_at_debut'] = row.css("td:nth-of-type(6)::text").get()
+            yield player
