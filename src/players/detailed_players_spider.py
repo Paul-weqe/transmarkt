@@ -3,12 +3,11 @@ import sqlite3
 import scrapy
 import json
 import os
-from scrapy.crawler import CrawlerProcess
 from bs4 import BeautifulSoup
 from src.extensions import SqlContext, INSERT_SQL
+from src.items.detailed_player_item import DetailedPlayerItem
 
 ROOT_URL = "https://www.transfermarkt.com"
-
 
 class DetailedPlayersSpider(scrapy.Spider):
     start_urls = [ ]
@@ -82,8 +81,6 @@ class DetailedPlayersSpider(scrapy.Spider):
 
             with SqlContext() as sql:
 
-                
-
                 current_value = self.strip_string( response.css(".tm-player-market-value-development__current-value::text").get() )
                 current_value = self.change_currency_to_numbers(str(current_value))
 
@@ -96,13 +93,14 @@ class DetailedPlayersSpider(scrapy.Spider):
                 url = response.request.url
                 info_spans = table.css(".info-table__content").extract()
 
-                
-                
-                info = {"Name": unidecode(f"{full_name}"), "Date of birth": None, "Place of birth": None, "Age": None,
-                        "Height": None, "Position": None, "Foot": None, "Player Agent": None, "Agent Link": None,
-                        "Current Club": None, "Joined": None, "Contract Expires": None, "Outfitter": None, "Url": url,
-                        "Current Value": current_value, "Max Value": max_value, "Max Value Date": max_value_date,
-                        "Last Contract Extension": None, "League Name": league_name, "On Loan": False}
+                info = DetailedPlayerItem()
+                info.url = url
+                info.on_loan = False
+                info.league_name = league_name
+                info.max_value = max_value
+                info.current_value = current_value
+                info.name = unidecode(full_name)
+                info.max_value_date = max_value_date
 
                 n = 2
 
@@ -111,82 +109,82 @@ class DetailedPlayersSpider(scrapy.Spider):
                     title = BeautifulSoup(info_pair[0].strip(), features='lxml').get_text().strip()
                     value = BeautifulSoup(info_pair[1].strip(), features='lxml').get_text().strip()
 
-                    match title:
+                    match unidecode(title):
                         
                         case "Date of birth:":
-                            info["Date of birth"] = value
+                            info.date_of_birth = value
                     
                         case "Place of birth:":
-                            info["Place of birth"] = value
+                            info.place_of_birth = value
                         
                         case "Age:":
-                            info["Age"] = value
+                            info.age = value
 
                         case "Height:":
-                            info["Height"] = value
+                            info.height = value
                         
                         case "Citizenship:":
-                            info["Citizenship"] = value
+                            info.citizenship = value
                         
                         case "Position:":
-                            info["Position"] = value
+                            info.position = value
                         
                         case "Foot:":
-                            info["Foot"] = value
+                            info.foot = value
                         
                         case "On loan from:":
-                            info["On Loan"] = True
+                            info.on_loan = True
 
                         case "Player agent:":
-                            info["Player Agent"] = value
+                            info.player_agent = value
 
                             agent_link_bs = BeautifulSoup(info_pair[1].strip(), features='lxml').findAll("a", {})
                             if len(agent_link_bs) > 0:
                                 link = BeautifulSoup(info_pair[1].strip(), features='lxml').a['href']
-                                info["Agent Link"] = f"{ROOT_URL}{link}"
+                                info.agent_link = f"{ROOT_URL}{link}"
                             
                         
                         case "Current club:":
-                            info["Current Club"] = value
+                            info.current_club = value
                         
                         case "Joined:":
-                            info["Joined"] = value
+                            info.joined = value
 
                         case "Contract expires:":
-                            info["Contract Expires"] = value
+                            info.contract_expires = value
                         
                         case "Outfitter:":
-                            info["Outfitter"] = value
+                            info.outfitter = value
                         
-                        case "Date of last contract extension:":
-                            info["Last Contract Extension"] = value
-                
+                        case "Letzte Verlangerung:":
+                            info.last_contract_extension = value
 
                 current_value = self.strip_string( current_value )
-                
+                info.current_value = current_value
+
                 sql.curr.execute(INSERT_SQL, (
-                    info["Name"], 
-                    info["Date of birth"], 
-                    info["Place of birth"], 
-                    info["Age"], 
-                    info["Height"], 
-                    info["Citizenship"],
-                    info["Position"], 
-                    info["Foot"], 
-                    info["Player Agent"], 
-                    info["Current Club"], 
-                    info["Joined"],
-                    info["Contract Expires"], 
-                    info["Outfitter"], 
-                    info["Max Value"],
-                    info["Max Value Date"],
-                    info["Current Value"],
-                    info["Last Contract Extension"],
-                    info["Current Club"],
-                    info["Url"], 
-                    info["League Name"],
-                    info["Agent Link"],
-                    str(info["On Loan"])
+                    info.name,
+                    info.date_of_birth,
+                    info.place_of_birth,
+                    info.age,
+                    info.height,
+                    info.citizenship,
+                    info.position,
+                    info.foot,
+                    info.player_agent,
+                    info.current_club,
+                    info.joined,
+                    info.contract_expires,
+                    info.outfitter,
+                    info.max_value,
+                    info.max_value_date,
+                    info.current_value,
+                    info.last_contract_extension,
+                    info.current_club,
+                    info.url,
+                    info.league_name,
+                    info.agent_link,
+                    str(info.on_loan)
                 ))
                 sql.conn.commit()
                 sql.conn.close()
@@ -212,17 +210,3 @@ def create_db():
         cur = con.cursor()
         cur.execute(sql_command)
     
-
-def fetch_detailed_players():
-    links = []
-
-    with open("json/players.json") as file:
-        file_data = json.load(file)
-        file.close()
-
-    for x in file_data:
-        links.append(f"https://www.transfermarkt.com{x['link']}")
-
-    process = CrawlerProcess()
-    process.crawl(DetailedPlayersSpider)
-    process.start()
