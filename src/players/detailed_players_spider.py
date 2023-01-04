@@ -34,6 +34,7 @@ class DetailedPlayersSpider(scrapy.Spider):
 
         for x in file_data:
             links.append(f"https://www.transfermarkt.com{x['link']}")
+
         return links
 
     @staticmethod
@@ -78,16 +79,15 @@ class DetailedPlayersSpider(scrapy.Spider):
 
         for table in response.css("div.info-table"):
 
-
             with SqlContext() as sql:
 
-                current_value = self.strip_string( response.css(".tm-player-market-value-development__current-value::text").get() )
+                current_value = self.strip_string( response.css(".tm-player-market-value-development__current-value a:nth-of-type(1)::text").get() )
+
+                if current_value is None:
+                    current_value = self.strip_string(response.css(".tm-player-market-value-development__current-value::text").get())
                 current_value = self.change_currency_to_numbers(str(current_value))
-
                 max_value = self.strip_string( response.css(".tm-player-market-value-development__max-value::text").get() )
-
                 max_value_date = self.strip_string( response.css(".tm-player-market-value-development__max div:nth-of-type(3)::text").get() )
-
                 league_name = self.strip_string( response.css('a.data-header__league-link img::attr("title")').get() )
 
                 url = response.request.url
@@ -112,6 +112,7 @@ class DetailedPlayersSpider(scrapy.Spider):
                     match unidecode(title):
                         
                         case "Date of birth:":
+                            value = value.replace("Happy Birthday", "")
                             info.date_of_birth = value
                     
                         case "Place of birth:":
@@ -168,7 +169,6 @@ class DetailedPlayersSpider(scrapy.Spider):
 
                 current_value = self.strip_string( current_value )
                 info.current_value = current_value
-
                 sql.curr.execute(INSERT_SQL, (
                     info.name,
                     info.date_of_birth,

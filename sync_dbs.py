@@ -17,6 +17,7 @@ for sqlite_player in  sqlite_players_res:
     sql_club = unidecode(sqlite_player[10].strip()) # remove any accents from the name
     sql_nationalities = sqlite_player[5].split(",")
     sql_nationalities = [unidecode(x.strip()) for x in sql_nationalities]
+    sql_url = sqlite_player[18]
 
     try:
         sql_dob = datetime.strptime(sql_dob.strip(), "%b %d, %Y")
@@ -35,10 +36,14 @@ for sqlite_player in  sqlite_players_res:
             statsbomb_dob = None
 
         if sql_name == statsbomb_name and sql_dob == statsbomb_dob:
-            players_relations[str(statsbomb_player_id)] = sql_name
+            players_relations[str(statsbomb_player_id)] = sql_url
 
         elif statsbomb_club in sql_club and sql_dob == statsbomb_dob:
-            players_relations[str(statsbomb_player_id)] = sql_name
+            players_relations[str(statsbomb_player_id)] = sql_url
+
+        elif statsbomb_nationality in sql_nationalities and sql_dob == statsbomb_dob:
+            players_relations[str(statsbomb_player_id)] = sql_url
+
 
 new_columns = [
     "date_of_birth", "place_of_birth", "age",
@@ -65,13 +70,13 @@ with open(csv_path) as file_reader, open("data.csv", "w", newline='') as file_wr
 
         statsbomb_player_id = row[15]
 
-        player_name = None
+        url = None
         if str(statsbomb_player_id) in players_relations.keys():
-            player_name = players_relations[str(statsbomb_player_id)]
+            url = players_relations[str(statsbomb_player_id)]
 
-        if player_name:
+        if url:
             with SqlContext() as sql:
-                sqlite_player = list(sql.curr.execute("SELECT * FROM players WHERE name=?", (player_name,)).fetchone())
+                sqlite_player = list(sql.curr.execute("SELECT * FROM players WHERE url=?", (url,)).fetchone())
                 del sqlite_player[0]
 
                 if sqlite_player:
