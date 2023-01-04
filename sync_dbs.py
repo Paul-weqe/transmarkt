@@ -10,28 +10,35 @@ csv_players_res = fetch_csv(csv_path)
 
 players_relations = {}
 
-for player in  sqlite_players_res:
+for sqlite_player in  sqlite_players_res:
 
-    name = player[0]
-    date_of_birth = player[1]
+    sql_name = sqlite_player[0]
+    sql_dob = sqlite_player[1]
+    sql_club = unidecode(sqlite_player[10].strip()) # remove any accents from the name
 
     try:
-        dob = datetime.strptime(date_of_birth.strip(), "%b %d, %Y")
+        sql_dob = datetime.strptime(sql_dob.strip(), "%b %d, %Y")
     except Exception as e:
-        dob = None
+        sql_dob = None
 
-    for player2 in csv_players_res:
-        csv_name = unidecode(player2[2])
-        player_id = player2[15]
+    for csv_player in csv_players_res:
+        statsbomb_name = unidecode(csv_player[2])
+        statsbomb_player_id = csv_player[15]
+        statsbomb_club = unidecode(csv_player[3].strip())
 
         try:
-            csv_dob = datetime.strptime(player2[10].strip(), "%Y-%m-%d")
+            statsbomb_dob = datetime.strptime(csv_player[10].strip(), "%Y-%m-%d")
         except Exception as e:
-            csv_dob = None
+            statsbomb_dob = None
 
 
-        if name == csv_name and dob == csv_dob:
-            players_relations[str(player_id)] = name
+
+        if sql_name == statsbomb_name and sql_dob == statsbomb_dob:
+            players_relations[str(statsbomb_player_id)] = sql_name
+
+        elif statsbomb_club in sql_club and sql_dob == statsbomb_dob:
+            players_relations[str(statsbomb_player_id)] = sql_name
+
 
 new_columns = [
     "date_of_birth", "place_of_birth", "age",
@@ -49,25 +56,26 @@ with open(csv_path) as file_reader, open("data.csv", "w", newline='') as file_wr
     counter = 1
 
     for row in csv_reader:
+
         if counter == 1:
             row = row + new_columns
             csv_writer.writerow(row)
             counter += 1
             continue
 
-        player_id = row[15]
+        statsbomb_player_id = row[15]
 
         player_name = None
-        if str(player_id) in players_relations.keys():
-            player_name = players_relations[str(player_id)]
+        if str(statsbomb_player_id) in players_relations.keys():
+            player_name = players_relations[str(statsbomb_player_id)]
 
         if player_name:
             with SqlContext() as sql:
-                player = list( sql.curr.execute("SELECT * FROM players WHERE name=?", (player_name, )).fetchone() )
-                del player[0]
+                sqlite_player = list(sql.curr.execute("SELECT * FROM players WHERE name=?", (player_name,)).fetchone())
+                del sqlite_player[0]
 
-                if player:
-                    for info in player:
+                if sqlite_player:
+                    for info in sqlite_player:
                         row.append(info)
 
         csv_writer.writerow(row)
