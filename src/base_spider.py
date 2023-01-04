@@ -3,6 +3,9 @@ import random
 import requests
 from bs4 import BeautifulSoup
 from abc import ABC, abstractmethod
+
+ROOT_URL = "https://www.transfermarkt.co.uk"
+
 class BaseTransfermarktSpider(ABC, scrapy.Spider):
     name = "Base Transfermarkt"
     start_urls = [ ]
@@ -13,11 +16,11 @@ class BaseTransfermarktSpider(ABC, scrapy.Spider):
         self.start_urls = self.fetch_urls()
     @abstractmethod
     def fetch_urls(self) -> list:
-        pass
+        ...
 
     @abstractmethod
     def parse(self, response, **kwargs):
-        pass
+        ...
 
     @staticmethod
     def strip_string(input_):
@@ -66,4 +69,3 @@ class BaseTransfermarktSpider(ABC, scrapy.Spider):
             l = link.find_all('a')[0].get('href')
             links.append(f"{BASE_URL}{l}")
         return links
-

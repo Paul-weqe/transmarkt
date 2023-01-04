@@ -1,4 +1,8 @@
-from src.players.detailed_players_spider import fetch_detailed_players, create_db
+from scrapy.crawler import CrawlerProcess
+
+from src.players.detailed_players_spider import DetailedPlayersSpider, create_db
 
 create_db()
-fetch_detailed_players()
+process = CrawlerProcess()
+process.crawl(DetailedPlayersSpider)
+process.start()
