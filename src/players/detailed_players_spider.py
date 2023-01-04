@@ -124,7 +124,15 @@ class DetailedPlayersSpider(scrapy.Spider):
                             info.height = value
                         
                         case "Citizenship:":
-                            info.citizenship = value
+                            value_span = info_pair[1]
+                            soup = BeautifulSoup(value_span, 'html.parser')
+                            soup_countries = soup.select('.flaggenrahmen')
+
+                            countries = []
+                            for country in soup_countries:
+                                countries.append(country['title'])
+
+                            info.citizenship = ", ".join(countries)
                         
                         case "Position:":
                             info.position = value

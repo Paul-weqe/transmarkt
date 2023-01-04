@@ -15,6 +15,8 @@ for sqlite_player in  sqlite_players_res:
     sql_name = sqlite_player[0]
     sql_dob = sqlite_player[1]
     sql_club = unidecode(sqlite_player[10].strip()) # remove any accents from the name
+    sql_nationalities = sqlite_player[5].split(",")
+    sql_nationalities = [unidecode(x.strip()) for x in sql_nationalities]
 
     try:
         sql_dob = datetime.strptime(sql_dob.strip(), "%b %d, %Y")
@@ -25,6 +27,7 @@ for sqlite_player in  sqlite_players_res:
         statsbomb_name = unidecode(csv_player[2])
         statsbomb_player_id = csv_player[15]
         statsbomb_club = unidecode(csv_player[3].strip())
+        statsbomb_nationality = unidecode(csv_player[8].strip())
 
         try:
             statsbomb_dob = datetime.strptime(csv_player[10].strip(), "%Y-%m-%d")
@@ -36,9 +39,8 @@ for sqlite_player in  sqlite_players_res:
         if sql_name == statsbomb_name and sql_dob == statsbomb_dob:
             players_relations[str(statsbomb_player_id)] = sql_name
 
-        elif statsbomb_club in sql_club and sql_dob == statsbomb_dob:
+        elif statsbomb_club in sql_club and sql_dob == statsbomb_dob and statsbomb_nationality in sql_nationalities:
             players_relations[str(statsbomb_player_id)] = sql_name
-
 
 new_columns = [
     "date_of_birth", "place_of_birth", "age",
