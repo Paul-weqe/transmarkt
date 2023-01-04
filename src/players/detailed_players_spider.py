@@ -150,8 +150,7 @@ class DetailedPlayersSpider(scrapy.Spider):
                             if len(agent_link_bs) > 0:
                                 link = BeautifulSoup(info_pair[1].strip(), features='lxml').a['href']
                                 info.agent_link = f"{ROOT_URL}{link}"
-                            
-                        
+
                         case "Current club:":
                             info.current_club = value
                         

@@ -34,12 +34,10 @@ for sqlite_player in  sqlite_players_res:
         except Exception as e:
             statsbomb_dob = None
 
-
-
         if sql_name == statsbomb_name and sql_dob == statsbomb_dob:
             players_relations[str(statsbomb_player_id)] = sql_name
 
-        elif statsbomb_club in sql_club and sql_dob == statsbomb_dob and statsbomb_nationality in sql_nationalities:
+        elif statsbomb_club in sql_club and sql_dob == statsbomb_dob:
             players_relations[str(statsbomb_player_id)] = sql_name
 
 new_columns = [
