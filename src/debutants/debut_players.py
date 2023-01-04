@@ -3,6 +3,7 @@ from src.base_spider import BaseTransfermarktSpider
 from src.constants import DEBUT_PLAYER_LINKS
 from src.items.debut_player_item import DebutPlayerItem
 
+
 user_agent = ''.join((random.choice('abcdefghijklmnopqrstuvwxyz1234567890@') for i in range(10)))
 
 class FetchDebutantsSpider(BaseTransfermarktSpider):
@@ -31,4 +32,3 @@ class FetchDebutantsSpider(BaseTransfermarktSpider):
             player['age_at_debut'] = row.css("td:nth-of-type(6)::text").get()
 
             yield player
-
