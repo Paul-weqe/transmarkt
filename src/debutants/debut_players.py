@@ -34,10 +34,10 @@ class FetchDebutantsSpider(BaseTransfermarktSpider):
             score_classes = row.css("td:nth-of-type(7) a span").xpath("@class").extract()
 
             if "greentext" in score_classes:
-                player["first_game_outcome"] = "win"
+                player["debut_game_outcome"] = "win"
             elif "redtext" in score_classes:
-                player["first_game_outcome"] = "loss"
+                player["debut_game_outcome"] = "loss"
             else:
-                player["first_game_outcome"] = "draw"
+                player["debut_game_outcome"] = "draw"
 
             yield player

@@ -68,11 +68,14 @@ class DetailedDebutantPlayersSpider(BaseTransfermarktSpider):
                     "Height": None, "Position": None, "Foot": None, "Player Agent": None, "Agent Link": None,
                     "Current Club": None, "Joined": None, "Contract Expires": None, "Outfitter": None, "Url": url,
                     "Current Value": current_value, "Max Value": max_value, "Max Value Date": max_value_date,
-                    "Last Contract Extension": None, "League Name": league_name, "On Loan": False}
+                    "Last Contract Extension": None, "League Name": league_name, "On Loan": False,
+                    "Debut Score": None, "Debut Outcome": None}
 
             for player in self.players_info:
                 if player["link"].strip() == url:
                     info["Age At Debut"] = player["age_at_debut"]
+                    info["Debut Score"] = player["debut_score"]
+                    info["Debut Outcome"] = player["debut_game_outcome"]
 
             n = 2
 

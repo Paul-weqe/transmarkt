@@ -5,4 +5,4 @@ class DebutPlayerItem(Item):
     link = Field()
     age_at_debut = Field()
     debut_score = Field()
-    first_game_outcome = Field()
+    debut_game_outcome = Field()
