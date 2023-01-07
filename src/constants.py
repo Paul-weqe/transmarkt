@@ -21,6 +21,7 @@ Leagues being fetched:
     19. Austrian Bundersliga
     20. Swedish league
     21. Norweigian league
+    22. Scottish Premier league
 
 Any additions/deletions in leagues being made to any of the constants below, make sure to consider the
 above leagues/modify them
@@ -49,6 +50,7 @@ LEAGUES_LINKS = [
     'https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/A1', # Austrian Bundersliga
     'https://www.transfermarkt.com/allsvenskan/startseite/wettbewerb/SE1', # Swedish league
     'https://www.transfermarkt.com/eliteserien/startseite/wettbewerb/NO1', # Norweigian league
+    'https://www.transfermarkt.com/scottish-premiership/startseite/wettbewerb/SC1', # Scottish Premiership
 ]
 
 DEBUT_PLAYER_LINKS = [
@@ -73,4 +75,5 @@ DEBUT_PLAYER_LINKS = [
     'https://www.transfermarkt.co.uk/bundesliga/profidebuetanten/wettbewerb/A1/option/profi/plus/1', # Austrian Bundesliga
     'https://www.transfermarkt.co.uk/allsvenskan/profidebuetanten/wettbewerb/SE1/option/profi/plus/1', # Swedish League
     'https://www.transfermarkt.co.uk/eliteserien/profidebuetanten/wettbewerb/NO1/option/profi/plus/1' # Norweigian League
+    'https://www.transfermarkt.com/scottish-premiership/wettbewerb/SC1/option/profi/plus/1' # Scottish premier league
 ]

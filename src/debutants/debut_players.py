@@ -31,6 +31,8 @@ class FetchDebutantsSpider(BaseTransfermarktSpider):
             player['link'] = f"https://www.transfermarkt.co.uk{player_link}"
             player['age_at_debut'] = row.css("td:nth-of-type(8)::text").get()
             player['debut_score'] = row.css("td:nth-of-type(7) a span::text").get().strip()
+            player['debut_date'] = row.css("td:nth-of-type(7) span.spielDatum::text").get().strip()
+
             score_classes = row.css("td:nth-of-type(7) a span").xpath("@class").extract()
 
             if "greentext" in score_classes:

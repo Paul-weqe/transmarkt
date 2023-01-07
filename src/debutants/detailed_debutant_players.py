@@ -76,6 +76,7 @@ class DetailedDebutantPlayersSpider(BaseTransfermarktSpider):
                     info["Age At Debut"] = player["age_at_debut"]
                     info["Debut Score"] = player["debut_score"]
                     info["Debut Outcome"] = player["debut_game_outcome"]
+                    info["Date of debut"] = player["debut_date"]
 
             n = 2
 
@@ -133,35 +134,6 @@ class DetailedDebutantPlayersSpider(BaseTransfermarktSpider):
                     case "Date of last contract extension:":
                         info["Last Contract Extension"] = value
 
-            date_of_birth = info["Date of birth"]
-            age_at_debut = info["Age At Debut"]
-            date_of_debut = ""
 
-            if age_at_debut.strip() == "-":
-                date_of_debut = ""
-            elif date_of_birth.strip() == "":
-                pass
-            else:
-                date_of_birth = datetime.datetime.strptime(date_of_birth.strip(), "%b %d, %Y")
-                years, months, days = 0, 0, 0
-                year_of_debut_str = re.findall('[0-9]+ year', age_at_debut)
-                month_of_debut_str = re.findall('[0-9]+ month', age_at_debut)
-                day_of_debut_str = re.findall('[0-9]+ day', age_at_debut)
-
-                if len(year_of_debut_str) != 0:
-                    years = int(year_of_debut_str[0].split(" ")[0])
-
-                if len(month_of_debut_str) != 0:
-                    months = int(month_of_debut_str[0].split(" ")[0])
-
-                if len(day_of_debut_str) != 0:
-                    days = int(day_of_debut_str[0].split(" ")[0])
-
-                date_of_debut = date_of_birth + relativedelta(years = years, months = months) \
-                                + datetime.timedelta(days = days)
-
-                date_of_debut = date_of_debut.strftime("%b %d, %Y")
-
-            info["Date of debut"] = date_of_debut
             yield info
 

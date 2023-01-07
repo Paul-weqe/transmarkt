@@ -6,3 +6,4 @@ class DebutPlayerItem(Item):
     age_at_debut = Field()
     debut_score = Field()
     debut_game_outcome = Field()
+    debut_date = Field()
