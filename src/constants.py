@@ -52,25 +52,25 @@ LEAGUES_LINKS = [
 ]
 
 DEBUT_PLAYER_LINKS = [
-    'https://www.transfermarkt.co.uk/premier-league/profidebuetanten/wettbewerb/GB1/option/profi',  # Premier League
-    'https://www.transfermarkt.co.uk/championship/profidebuetanten/wettbewerb/GB2/option/profi', # Championship
-    'https://www.transfermarkt.co.uk/league-one/profidebuetanten/wettbewerb/GB3/option/profi', # English League 1
-    'https://www.transfermarkt.co.uk/league-two/profidebuetanten/wettbewerb/GB4/option/profi', # English League 2
-    'https://www.transfermarkt.co.uk/league-1/profidebuetanten/wettbewerb/FR1/option/profi', # French League 1
-    'https://www.transfermarkt.co.uk/league-2/profidebuetanten/wettbewerb/FR2/option/profi', # French League 2
-    'https://www.transfermarkt.co.uk/bundesliga/profidebuetanten/wettbewerb/L1/option/profi', # German Bundesliga
-    'https://www.transfermarkt.co.uk/2-bundesliga/profidebuetanten/wettbewerb/L2/option/profi', # Bundesliga 2
-    'https://www.transfermarkt.co.uk/serie-a/profidebuetanten/wettbewerb/IT1/option/profi', # Italy Series A
-    'https://www.transfermarkt.co.uk/laliga/profidebuetanten/wettbewerb/ES1/option/profi', # La Liga
-    'https://www.transfermarkt.co.uk/jupiler-pro-league/profidebuetanten/wettbewerb/BE1/option/profi', # Belgium Jupiter League
-    'https://www.transfermarkt.co.uk/eredivisie/profidebuetanten/wettbewerb/NL1/option/profi', # Dutch Eredevise
-    'https://www.transfermarkt.co.uk/liga-nos/profidebuetanten/wettbewerb/PO1/option/profi', # Portugal Premier League
-    'https://www.transfermarkt.co.uk/premier-liga/profidebuetanten/wettbewerb/UKR1/option/profi', # Ukraine Premier League
-    'https://www.transfermarkt.co.uk/premier-liga/profidebuetanten/wettbewerb/RU1/option/profi', # Russian Premier League
-    'https://www.transfermarkt.co.uk/campeonato-brasileiro-serie-a/profidebuetanten/wettbewerb/BRA1/option/profi', # Brazilian League
-    'https://www.transfermarkt.co.uk/superliga/profidebuetanten/wettbewerb/AR1N/option/profi', # Argentinian League
-    'https://www.transfermarkt.co.uk/superligaen/profidebuetanten/wettbewerb/DK1/option/profi', # Dannish League
-    'https://www.transfermarkt.co.uk/bundesliga/profidebuetanten/wettbewerb/A1/option/profi', # Austrian Bundesliga
-    'https://www.transfermarkt.co.uk/allsvenskan/profidebuetanten/wettbewerb/SE1/option/profi', # Swedish League
-    'https://www.transfermarkt.co.uk/eliteserien/profidebuetanten/wettbewerb/NO1/option/profi' # Norweigian League
+    'https://www.transfermarkt.co.uk/premier-league/profidebuetanten/wettbewerb/GB1/option/profi/plus/1',  # Premier League
+    'https://www.transfermarkt.co.uk/championship/profidebuetanten/wettbewerb/GB2/option/profi/plus/1', # Championship
+    'https://www.transfermarkt.co.uk/league-one/profidebuetanten/wettbewerb/GB3/option/profi/plus/1', # English League 1
+    'https://www.transfermarkt.co.uk/league-two/profidebuetanten/wettbewerb/GB4/option/profi/plus/1', # English League 2
+    'https://www.transfermarkt.co.uk/league-1/profidebuetanten/wettbewerb/FR1/option/profi/plus/1', # French League 1
+    'https://www.transfermarkt.co.uk/league-2/profidebuetanten/wettbewerb/FR2/option/profi/plus/1', # French League 2
+    'https://www.transfermarkt.co.uk/bundesliga/profidebuetanten/wettbewerb/L1/option/profi/plus/1', # German Bundesliga
+    'https://www.transfermarkt.co.uk/2-bundesliga/profidebuetanten/wettbewerb/L2/option/profi/plus/1', # Bundesliga 2
+    'https://www.transfermarkt.co.uk/serie-a/profidebuetanten/wettbewerb/IT1/option/profi/plus/1', # Italy Series A
+    'https://www.transfermarkt.co.uk/laliga/profidebuetanten/wettbewerb/ES1/option/profi/plus/1', # La Liga
+    'https://www.transfermarkt.co.uk/jupiler-pro-league/profidebuetanten/wettbewerb/BE1/option/profi/plus/1', # Belgium Jupiter League
+    'https://www.transfermarkt.co.uk/eredivisie/profidebuetanten/wettbewerb/NL1/option/profi/plus/1', # Dutch Eredevise
+    'https://www.transfermarkt.co.uk/liga-nos/profidebuetanten/wettbewerb/PO1/option/profi/plus/1', # Portugal Premier League
+    'https://www.transfermarkt.co.uk/premier-liga/profidebuetanten/wettbewerb/UKR1/option/profi/plus/1', # Ukraine Premier League
+    'https://www.transfermarkt.co.uk/premier-liga/profidebuetanten/wettbewerb/RU1/option/profi/plus/1', # Russian Premier League
+    'https://www.transfermarkt.co.uk/campeonato-brasileiro-serie-a/profidebuetanten/wettbewerb/BRA1/option/profi/plus/1', # Brazilian League
+    'https://www.transfermarkt.co.uk/superliga/profidebuetanten/wettbewerb/AR1N/option/profi/plus/1', # Argentinian League
+    'https://www.transfermarkt.co.uk/superligaen/profidebuetanten/wettbewerb/DK1/option/profi/plus/1', # Dannish League
+    'https://www.transfermarkt.co.uk/bundesliga/profidebuetanten/wettbewerb/A1/option/profi/plus/1', # Austrian Bundesliga
+    'https://www.transfermarkt.co.uk/allsvenskan/profidebuetanten/wettbewerb/SE1/option/profi/plus/1', # Swedish League
+    'https://www.transfermarkt.co.uk/eliteserien/profidebuetanten/wettbewerb/NO1/option/profi/plus/1' # Norweigian League
 ]

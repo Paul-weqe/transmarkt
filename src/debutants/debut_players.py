@@ -29,6 +29,15 @@ class FetchDebutantsSpider(BaseTransfermarktSpider):
             player = DebutPlayerItem()
             player['name'] = row.css("td:nth-of-type(1) table td.hauptlink a::text").get()
             player['link'] = f"https://www.transfermarkt.co.uk{player_link}"
-            player['age_at_debut'] = row.css("td:nth-of-type(6)::text").get()
+            player['age_at_debut'] = row.css("td:nth-of-type(8)::text").get()
+            player['debut_score'] = row.css("td:nth-of-type(7) a span::text").get().strip()
+            score_classes = row.css("td:nth-of-type(7) a span").xpath("@class").extract()
+
+            if "greentext" in score_classes:
+                player["first_game_outcome"] = "win"
+            elif "redtext" in score_classes:
+                player["first_game_outcome"] = "loss"
+            else:
+                player["first_game_outcome"] = "draw"
 
             yield player

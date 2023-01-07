@@ -3,7 +3,6 @@ import datetime
 import json
 import scrapy
 from bs4 import BeautifulSoup
-from src.extensions import SqlContext
 from dateutil.relativedelta import relativedelta
 from src.base_spider import BaseTransfermarktSpider
 
@@ -47,9 +46,10 @@ class DetailedDebutantPlayersSpider(BaseTransfermarktSpider):
             else:
                 full_name = self.strip_string(full_name)
         for table in response.css("div.info-table"):
+            current_value = self.strip_string(response.css(".tm-player-market-value-development__current-value a:nth-of-type(1)::text").get())
+            if current_value is None:
+                current_value = self.strip_string(response.css(".tm-player-market-value-development__current-value::text").get())
 
-            current_value = self.strip_string(
-                response.css(".tm-player-market-value-development__current-value::text").get())
             current_value = self.change_currency_to_numbers(str(current_value))
 
             max_value = self.strip_string(
