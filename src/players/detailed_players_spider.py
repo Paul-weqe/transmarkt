@@ -10,6 +10,11 @@ from src.items.detailed_player_item import DetailedPlayerItem
 ROOT_URL = "https://www.transfermarkt.com"
 
 class DetailedPlayersSpider(scrapy.Spider):
+
+    """
+    Should be run after the FetchTeamSpider in players_spider.py.
+    This fetches more specific details such as club, age, agent information etc.
+    """
     start_urls = [ ]
     name = "Detailed Players Crawler"
     custom_settings = {
