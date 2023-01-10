@@ -1,10 +1,8 @@
-import re
-import datetime
 import json
 import scrapy
 from bs4 import BeautifulSoup
-from dateutil.relativedelta import relativedelta
 from src.base_spider import BaseTransfermarktSpider
+from src.items.detailed_debutant_player_item import DetailedDebutantPlayerItem
 
 ROOT_URL = "https://www.transfermarkt.co.uk"
 class DetailedDebutantPlayersSpider(BaseTransfermarktSpider):
@@ -47,36 +45,33 @@ class DetailedDebutantPlayersSpider(BaseTransfermarktSpider):
                 full_name = self.strip_string(full_name)
         for table in response.css("div.info-table"):
             current_value = self.strip_string(response.css(".tm-player-market-value-development__current-value a:nth-of-type(1)::text").get())
+
             if current_value is None:
                 current_value = self.strip_string(response.css(".tm-player-market-value-development__current-value::text").get())
 
             current_value = self.change_currency_to_numbers(str(current_value))
-
             max_value = self.strip_string(
                 response.css(".tm-player-market-value-development__max-value::text").get())
-
             max_value_date = self.strip_string(
                 response.css(".tm-player-market-value-development__max div:nth-of-type(3)::text").get())
-
             league_name = self.strip_string(response.css('a.data-header__league-link img::attr("title")').get())
-
             url = response.request.url
-
             info_spans = table.css(".info-table__content").extract()
 
-            info = {"Name": f"{full_name}", "Date of debut": "", "Date of birth": None, "Place of birth": None, "Age": None,
-                    "Height": None, "Position": None, "Foot": None, "Player Agent": None, "Agent Link": None,
-                    "Current Club": None, "Joined": None, "Contract Expires": None, "Outfitter": None, "Url": url,
-                    "Current Value": current_value, "Max Value": max_value, "Max Value Date": max_value_date,
-                    "Last Contract Extension": None, "League Name": league_name, "On Loan": False,
-                    "Debut Score": None, "Debut Outcome": None}
+            info = DetailedDebutantPlayerItem()
+            info.name = full_name
+            info.date_of_debut = ""
+            info.url = url
+            info.current_value = current_value
+            info.max_value = max_value
+            info.max_value_date = max_value_date
+            info.league_name = league_name
 
             for player in self.players_info:
                 if player["link"].strip() == url:
-                    info["Age At Debut"] = player["age_at_debut"]
-                    info["Debut Score"] = player["debut_score"]
-                    info["Debut Outcome"] = player["debut_game_outcome"]
-                    info["Date of debut"] = player["debut_date"]
+                    info.age_at_debut = player["age_at_debut"]
+                    info.debut_score = player["debut_score"]
+                    info.debut_outcome = player["debut_game_outcome"]
 
             n = 2
 
@@ -88,51 +83,51 @@ class DetailedDebutantPlayersSpider(BaseTransfermarktSpider):
                 match title:
 
                     case "Date of birth:":
-                        info["Date of birth"] = value
+                        info.date_of_birth = value
 
                     case "Place of birth:":
-                        info["Place of birth"] = value
+                        info.place_of_birth = value
 
                     case "Age:":
-                        info["Age"] = value
+                        info.age = value
 
                     case "Height:":
-                        info["Height"] = value
+                        info.height = value
 
                     case "Citizenship:":
-                        info["Citizenship"] = value
+                        info.citizenship = value
 
                     case "Position:":
-                        info["Position"] = value
+                        info.position = value
 
                     case "Foot:":
-                        info["Foot"] = value
+                        info.foot = value
 
                     case "On loan from:":
-                        info["On Loan"] = True
+                        info.on_loan = True
 
                     case "Player agent:":
-                        info["Player Agent"] = value
+                        info.player_agent = value
 
                         agent_link_bs = BeautifulSoup(info_pair[1].strip(), features='lxml').findAll("a", {})
                         if len(agent_link_bs) > 0:
                             link = BeautifulSoup(info_pair[1].strip(), features='lxml').a['href']
-                            info["Agent Link"] = f"{ROOT_URL}{link}"
+                            info.agent_link = f"{ROOT_URL}{link}"
 
                     case "Current club:":
-                        info["Current Club"] = value
+                        info.current_club = value
 
                     case "Joined:":
-                        info["Joined"] = value
+                        info.joined = value
 
                     case "Contract expires:":
-                        info["Contract Expires"] = value
+                        info.contract_expires = value
 
                     case "Outfitter:":
-                        info["Outfitter"] = value
+                        info.outfitter = value
 
                     case "Date of last contract extension:":
-                        info["Last Contract Extension"] = value
+                        info.last_contract_extension = value
 
 
             yield info
