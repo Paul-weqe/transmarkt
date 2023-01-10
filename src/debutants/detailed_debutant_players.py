@@ -32,7 +32,7 @@ class DetailedDebutantPlayersSpider(BaseTransfermarktSpider):
             links.append(x['link'])
         return links
 
-    def parse(self, response):
+    def parse(self, response, **kwargs):
         headline_wrapper = response.css(".data-header__headline-wrapper")
         shirt_number = self.strip_string(headline_wrapper.css("span::text").get())
         beauty_soup = BeautifulSoup(str(headline_wrapper.get()), features='lxml')
