@@ -32,6 +32,7 @@ queuelib==1.6.2
 requests==2.28.1
 requests-file==1.5.1
 Scrapy==2.6.2
+scrapy-djangoitem==1.1.1
 service-identity==21.1.0
 six==1.16.0
 soupsieve==2.3.2.post1
