@@ -22,4 +22,4 @@ class DetailedPlayerItem:
     max_value_date: str = None
     last_contract_extension: str = None
     league_name: str = None
-    on_loan: bool = None
+    on_loan: bool = False

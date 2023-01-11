@@ -2,6 +2,7 @@ from src.extensions import SqlContext, fetch_sqlite3, fetch_csv
 from datetime import datetime
 from unidecode import unidecode
 import csv
+import os
 
 csv_path = "initial-data.csv"
 
@@ -55,7 +56,10 @@ new_columns = [
     "on_loan"
 ]
 
-with open(csv_path) as file_reader, open("data.csv", "w", newline='') as file_writer:
+
+if not os.path.exists("csv/"):
+    os.makedirs("csv")
+with open(csv_path) as file_reader, open("csv/data.csv", "w", newline='') as file_writer:
     csv_reader = csv.reader(file_reader, delimiter=',')
     csv_writer = csv.writer(file_writer, delimiter=',')
     counter = 1
