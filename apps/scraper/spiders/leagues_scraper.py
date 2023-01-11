@@ -8,9 +8,6 @@ class LeaguesSpider(scrapy.Spider):
     name = "leagues_scraper"
     start_urls = [ 'https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB1', ]
     custom_settings = {
-        "FEEDS": {
-            f"json/teams.json": {"format": "json"}
-        },
         "USER_AGENT": user_agent
     }
 
@@ -19,9 +16,9 @@ class LeaguesSpider(scrapy.Spider):
             name = row.css('td:nth-of-type(2) a::text').get()
             link = row.css('td:nth-of-type(2) a::attr("href")').get()
 
-
             item = TeamItem()
             item['name'] = name
             item['link'] = link
+            item.save()
 
             yield item

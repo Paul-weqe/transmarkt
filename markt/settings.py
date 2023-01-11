@@ -19,10 +19,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
-ITEM_PIPELINES = {
-    "apps.scraper.pipelines.TeamPipeline": 300
-}
 
+ITEM_PIPELINES = {
+    "authentication.scraper.pipelines.TeamPipeline": 300,
+}
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
