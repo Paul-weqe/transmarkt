@@ -1,5 +1,5 @@
 import random
-from src.base_spider import BaseTransfermarktSpider
+from src.base.base_spider import BaseTransfermarktSpider
 from src.constants import DEBUT_PLAYER_LINKS
 from src.items.debut_player_item import DebutPlayerItem
 
@@ -27,19 +27,19 @@ class FetchDebutantsSpider(BaseTransfermarktSpider):
             player_link = row.css("td:nth-of-type(1) table td.hauptlink a::attr('href')").get()
 
             player = DebutPlayerItem()
-            player['name'] = row.css("td:nth-of-type(1) table td.hauptlink a::text").get()
-            player['link'] = f"https://www.transfermarkt.co.uk{player_link}"
-            player['age_at_debut'] = row.css("td:nth-of-type(8)::text").get()
-            player['debut_score'] = row.css("td:nth-of-type(7) a span::text").get().strip()
-            player['debut_date'] = row.css("td:nth-of-type(7) span.spielDatum::text").get().strip()
+            player.name = row.css("td:nth-of-type(1) table td.hauptlink a::text").get()
+            player.link = f"https://www.transfermarkt.co.uk{player_link}"
+            player.age_at_debut = row.css("td:nth-of-type(8)::text").get()
+            player.debut_score = row.css("td:nth-of-type(7) a span::text").get().strip()
+            player.debut_date = row.css("td:nth-of-type(7) span.spielDatum::text").get().strip()
 
             score_classes = row.css("td:nth-of-type(7) a span").xpath("@class").extract()
 
             if "greentext" in score_classes:
-                player["debut_game_outcome"] = "win"
+                player.debut_game_outcome = "win"
             elif "redtext" in score_classes:
-                player["debut_game_outcome"] = "loss"
+                player.debut_game_outcome = "loss"
             else:
-                player["debut_game_outcome"] = "draw"
+                player.debut_game_outcome = "draw"
 
             yield player

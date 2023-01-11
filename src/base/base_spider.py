@@ -2,11 +2,11 @@ import scrapy
 import random
 import requests
 from bs4 import BeautifulSoup
-from abc import ABC, abstractmethod
+from abc import abstractmethod, ABCMeta
 
 ROOT_URL = "https://www.transfermarkt.co.uk"
 
-class BaseTransfermarktSpider(ABC, scrapy.Spider):
+class BaseTransfermarktSpider(scrapy.Spider, metaclass=ABCMeta):
     name = "Base Transfermarkt"
     start_urls = [ ]
     user_agent = ''.join((random.choice('abcdefghijklmnopqrstuvwxyz1234567890@') for i in range(10)))
