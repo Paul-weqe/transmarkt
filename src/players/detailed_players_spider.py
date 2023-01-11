@@ -2,13 +2,13 @@ import sqlite3
 import scrapy
 import json
 import os
-from src.base_spider import BaseTransfermarktSpider
+
+from src.base.base_detailed_player_spider import DetailedPlayerBaseSpider
 from src.extensions import SqlContext, INSERT_SQL
 
 ROOT_URL = "https://www.transfermarkt.com"
 
-class DetailedPlayersSpider(BaseTransfermarktSpider):
-
+class DetailedPlayersPlayerBaseSpider(DetailedPlayerBaseSpider):
     """
     Should be run after the FetchTeamSpider in players_spider.py.
     This fetches more specific details such as club, age, agent information etc.
@@ -27,8 +27,7 @@ class DetailedPlayersSpider(BaseTransfermarktSpider):
         scrapy.Spider.__init__(self, name=self.name)
         self.start_urls = self.fetch_urls()
 
-    @staticmethod
-    def fetch_urls() -> list:
+    def fetch_urls(self) -> list:
         links = []
 
         with open("json/players.json") as file:

@@ -1,5 +1,5 @@
 from src.constants import LEAGUES_LINKS
-from src.base_spider import BaseTransfermarktSpider
+from src.base.base_spider import BaseTransfermarktSpider
 import random
 
 user_agent = ''.join((random.choice('abcdefghijklmnopqrstuvwxyz1234567890@') for i in range(10)))
