@@ -9,3 +9,4 @@ players.csv
 testing.py
 .env
 initial-data.csv
+.idea/*

@@ -1,10 +1,9 @@
 from django.db import models
 
-# Create your models here.
 class Team(models.Model):
     name = models.CharField(max_length=500)
-    # link = models.CharField(unique=True, max_length=500)
     link = models.URLField(unique=True, max_length=600)
+
 
 
 class Player(models.Model):
@@ -22,7 +21,7 @@ class Player(models.Model):
     joined = models.CharField(max_length=50, null=True)
     contract_expires = models.CharField(max_length=50, null=True)
     outfitter = models.CharField(max_length=300, null=True)
-    url = models.URLField(max_length=500, null=True)
+    url = models.URLField(max_length=500, unique=True, null=True)
     current_value = models.CharField(max_length=30, null=True)
     max_value = models.CharField(max_length=100, null=True)
     max_value_date = models.CharField(max_length=50, null=True)

@@ -1,7 +1,6 @@
 from scraper.spiders.base_spider import BaseTransfermarktSpider
 from authentication.models import Team
 from scraper.items import PlayerItem
-import json
 import random
 
 BASE_URL = "https://www.transfermarkt.com"

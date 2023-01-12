@@ -1,6 +1,8 @@
 import scrapy
 import random
+from authentication.models import Team
 from apps.scraper.items import TeamItem
+from django.forms import model_to_dict
 
 user_agent = ''.join((random.choice('abcdefghijklmnopqrstuvwxyz1234567890@') for i in range(10)))
 
@@ -19,6 +21,15 @@ class LeaguesSpider(scrapy.Spider):
             item = TeamItem()
             item['name'] = name
             item['link'] = link
-            item.save()
+            model_info = Team.objects.filter(link=link).first()
 
-            yield item
+            if model_info is None:
+                item.save()
+            else:
+                # update the existing team if it already exists
+                old_values = model_to_dict(model_info)
+                old_values.update(item.__dict__['_values'])
+                Team.objects.filter(link=link).update(**old_values)
+
+            yield None
+
