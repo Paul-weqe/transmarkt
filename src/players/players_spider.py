@@ -1,5 +1,4 @@
 import json
-from scrapy.crawler import CrawlerProcess
 from src.base.base_spider import BaseTransfermarktSpider
 import random
 
@@ -36,9 +35,4 @@ class FetchTeamSpider(BaseTransfermarktSpider):
                 "position": position
             }
 
-
-def fetch_players():
-    process = CrawlerProcess()
-    process.crawl(FetchTeamSpider)
-    process.start()
 
