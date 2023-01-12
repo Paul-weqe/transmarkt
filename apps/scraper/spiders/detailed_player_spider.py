@@ -1,5 +1,5 @@
 from scraper.spiders.base_detailed_player_spider import DetailedPlayerBaseSpider
-from authentication.models import Player
+from authentication.models import BasicPlayer, Player
 from django.forms import model_to_dict
 import scrapy
 
@@ -25,21 +25,19 @@ class DetailedPlayerSpider(DetailedPlayerBaseSpider):
         self.start_urls = self.fetch_urls()
 
     def fetch_urls(self) -> list:
-        links = Player.objects.values('url')
-        links = [f"{ROOT_URL}{x['url']}" for x in links]
+        links = BasicPlayer.objects.values('link')
+        links = [f"{ROOT_URL}{x['link']}" for x in links]
         return links
 
 
     def parse(self, response, **kwargs):
         info = self.detailed_player(response)
         model_info = Player.objects.filter(url=info['url']).first()
-        
         if model_info is None:
             info.save()
         else:
             old_values = model_to_dict(info)
-            old_values.update(info.__dict__['_values'].copy())
-            
+            old_values.update(info.__dict__['_values'])
             Player.objects.filter(url=info['url']).update(**old_values)
-
+            
         yield info

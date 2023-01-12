@@ -8,7 +8,7 @@ class Team(models.Model):
 class BasicPlayer(models.Model):
     name = models.CharField(max_length=500, null=True)
     link = models.URLField(max_length=500, null=True)
-    position = models.CharField(max_length=25, null=True)
+    position = models.CharField(max_length=100, null=True)
 
 class Player(models.Model):
     name = models.CharField(max_length=500, null=True)
@@ -16,7 +16,7 @@ class Player(models.Model):
     place_of_birth = models.CharField(max_length=200, null=True)
     age = models.IntegerField(null=True)
     height = models.CharField(max_length=20, null=True)
-    position = models.CharField(max_length=25, null=True)
+    position = models.CharField(max_length=100, null=True)
     citizenship = models.CharField(max_length=200, null=True)
     foot = models.CharField(max_length=30, null=True)
     player_agent = models.CharField(max_length=200, null=True)

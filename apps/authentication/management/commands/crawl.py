@@ -9,6 +9,7 @@ class Command(BaseCommand):
     help = "release the spiders"
     def handle(self, *args, **options):
         process = CrawlerProcess()
-        process.crawl(PlayerSpider)
+        # process.crawl(PlayerSpider)
         # process.crawl(LeaguesSpider)
+        process.crawl(DetailedPlayerSpider)
         process.start()
