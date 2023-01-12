@@ -1,8 +1,9 @@
 from scraper.spiders.base_spider import BaseTransfermarktSpider
-from authentication.models import Team
-from scraper.items import PlayerItem
-import random
+from authentication.models import Team, BasicPlayer
+from scraper.items import PlayerItem, BasicPlayerItem
+from django.forms import model_to_dict
 
+import random
 BASE_URL = "https://www.transfermarkt.com"
 user_agent = ''.join((random.choice('abcdefghijklmnopqrstuvwxyz1234567890@') for i in range(10)))
 
@@ -26,14 +27,19 @@ class PlayerSpider(BaseTransfermarktSpider):
             link = row.css("td:nth-of-type(2) table td.hauptlink a::attr('href')").get()
             position = row.css("td:nth-of-type(2) table tr:nth-of-type(2) td::text").get()
 
-            player = PlayerItem()
-            player['name'] = name
-            player['url'] = link
-            player['position'] = position
-            player.save()
-            yield player
-            # yield {
-            #     "name": name,
-            #     "link": link,
-            #     "position": position
-            # }
+
+            item = BasicPlayerItem()
+            item['name'] = name
+            item['link'] = link
+            item['position'] = position
+
+            model_info = BasicPlayer.objects.filter(link=link).first()
+            
+            if model_info is None:    
+                item.save()
+            else:
+                old_values = model_to_dict(model_info)
+                old_values.update(item.__dict__['_values'])
+                BasicPlayer.objects.filter(link=link).update(**old_values)
+            
+            yield item

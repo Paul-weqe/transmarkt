@@ -5,6 +5,10 @@ class Team(models.Model):
     link = models.URLField(unique=True, max_length=600)
 
 
+class BasicPlayer(models.Model):
+    name = models.CharField(max_length=500, null=True)
+    link = models.URLField(max_length=500, null=True)
+    position = models.CharField(max_length=25, null=True)
 
 class Player(models.Model):
     name = models.CharField(max_length=500, null=True)
