@@ -21,7 +21,7 @@ for sqlite_player in  sqlite_players_res:
     sql_url = sqlite_player[18]
 
     try:
-        sql_dob = datetime.strptime(sql_dob.strip(), "%b %d, %Y")
+        sql_dob = datetime.strptime(sql_dob.strip().replace("Happy Birthday", ""), "%b %d, %Y")
     except Exception as e:
         sql_dob = None
 
@@ -32,17 +32,24 @@ for sqlite_player in  sqlite_players_res:
         statsbomb_nationality = unidecode(csv_player[8].strip())
 
         try:
-            statsbomb_dob = datetime.strptime(csv_player[10].strip(), "%Y-%m-%d")
+            statsbomb_dob = datetime.strptime(csv_player[10].strip(), "%d/%m/%Y")
+        
         except Exception as e:
             statsbomb_dob = None
 
         if sql_name == statsbomb_name and sql_dob == statsbomb_dob:
+            print("--")
+            print("PLAYER ADDED TO NEW DB: {}".format(sql_name))
             players_relations[str(statsbomb_player_id)] = sql_url
 
         elif statsbomb_club in sql_club and sql_dob == statsbomb_dob:
+            print("--")
+            print("PLAYER ADDED TO NEW DB: {}".format(sql_name))
             players_relations[str(statsbomb_player_id)] = sql_url
 
         elif statsbomb_nationality in sql_nationalities and sql_dob == statsbomb_dob:
+            print("--")
+            print("PLAYER ADDED TO NEW DB: {}".format(sql_name))
             players_relations[str(statsbomb_player_id)] = sql_url
 
 

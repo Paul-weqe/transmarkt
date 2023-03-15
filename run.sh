@@ -1,3 +1,4 @@
+#!/bin/bash
 rm -rf json
 rm -rf players.db
 rm -rf data.csv
