@@ -13,9 +13,9 @@ players_relations = {}
 
 for sqlite_player in  sqlite_players_res:
 
-    sql_name = sqlite_player[0]
+    sql_name = sqlite_player[0].lower()
     sql_dob = sqlite_player[1]
-    sql_club = unidecode(sqlite_player[10].strip()) # remove any accents from the name
+    sql_club = unidecode(sqlite_player[10].strip().lower()) # remove any accents from the name
     sql_nationalities = sqlite_player[5].split(",")
     sql_nationalities = [unidecode(x.strip()) for x in sql_nationalities]
     sql_url = sqlite_player[18]
@@ -26,9 +26,9 @@ for sqlite_player in  sqlite_players_res:
         sql_dob = None
 
     for csv_player in csv_players_res:
-        statsbomb_name = unidecode(csv_player[2])
+        statsbomb_name = unidecode(csv_player[2].lower()) if csv_player[2] is not None else None
         statsbomb_player_id = csv_player[15]
-        statsbomb_club = unidecode(csv_player[3].strip())
+        statsbomb_club = unidecode(csv_player[3].strip().lower()) if csv_player[3] is not None else None
         statsbomb_nationality = unidecode(csv_player[8].strip())
 
         try:
@@ -47,11 +47,6 @@ for sqlite_player in  sqlite_players_res:
             print("PLAYER ADDED TO NEW DB: {}".format(sql_name))
             players_relations[str(statsbomb_player_id)] = sql_url
 
-        elif statsbomb_nationality in sql_nationalities and sql_dob == statsbomb_dob:
-            print("--")
-            print("PLAYER ADDED TO NEW DB: {}".format(sql_name))
-            players_relations[str(statsbomb_player_id)] = sql_url
-
 
 new_columns = [
     "date_of_birth", "place_of_birth", "age",
@@ -66,6 +61,7 @@ new_columns = [
 
 if not os.path.exists("csv/"):
     os.makedirs("csv")
+
 with open(csv_path) as file_reader, open("csv/data.csv", "w", newline='') as file_writer:
     csv_reader = csv.reader(file_reader, delimiter=',')
     csv_writer = csv.writer(file_writer, delimiter=',')
