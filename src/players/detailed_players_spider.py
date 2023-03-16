@@ -19,7 +19,7 @@ class DetailedPlayersPlayerBaseSpider(DetailedPlayerBaseSpider):
         "FEEDS": {
             f"json/detailed_players.json": {"format": "json"}
         },
-        "USER_AGENT": "Random Agent"
+        "USER_AGENT": "Random Agent",
     }
 
     def __init__(self):
