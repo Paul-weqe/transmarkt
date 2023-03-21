@@ -11,8 +11,8 @@ runner = CrawlerRunner()
 @defer.inlineCallbacks
 def crawl():
     yield runner.crawl(FetchLeagueSpider)
-    yield runner.crawl(FetchTeamSpider)
-    yield runner.crawl(DetailedPlayersPlayerBaseSpider)
+    # yield runner.crawl(FetchTeamSpider)
+    # yield runner.crawl(DetailedPlayersPlayerBaseSpider)
     reactor.stop()
 
 crawl()

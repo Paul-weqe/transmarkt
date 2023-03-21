@@ -42,11 +42,10 @@ for sqlite_player in  sqlite_players_res:
             print("PLAYER ADDED TO NEW DB: {}".format(sql_name))
             players_relations[str(statsbomb_player_id)] = sql_url
 
-        elif statsbomb_club in sql_club and sql_dob == statsbomb_dob:
+        elif (statsbomb_club in sql_club) and (statsbomb_nationality in sql_nationalities) and sql_dob == statsbomb_dob:
             print("--")
             print("PLAYER ADDED TO NEW DB: {}".format(sql_name))
             players_relations[str(statsbomb_player_id)] = sql_url
-
 
 new_columns = [
     "date_of_birth", "place_of_birth", "age",
