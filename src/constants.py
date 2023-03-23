@@ -26,31 +26,29 @@ Leagues being fetched:
 Any additions/deletions in leagues being made to any of the constants below, make sure to consider the
 above leagues/modify them
 """
-
-
 LEAGUES_LINKS = [
-    'https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB1', # Premier League
-    'https://www.transfermarkt.com/championship/startseite/wettbewerb/GB2',  # League 1
-    'https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3', # League 2
-    'https://www.transfermarkt.com/league-two/startseite/wettbewerb/GB4', # League 2
-    'https://www.transfermarkt.com/ligue-1/startseite/wettbewerb/FR1', # French League 1
-    'https://www.transfermarkt.com/ligue-2/startseite/wettbewerb/FR2', # French League 2
-    'https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/L1', # German Bundersliga
-    'https://www.transfermarkt.com/2-bundesliga/startseite/wettbewerb/L2', # Bundersliga 2
-    'https://www.transfermarkt.com/serie-a/startseite/wettbewerb/IT1', # Italy Series A
-    'https://www.transfermarkt.com/laliga/startseite/wettbewerb/ES1', # La Liga
-    'https://www.transfermarkt.com/jupiler-pro-league/startseite/wettbewerb/BE1', # Belgium Jupiter League
-    'https://www.transfermarkt.com/eredivisie/startseite/wettbewerb/NL1', # Dutch Eredevise
-    'https://www.transfermarkt.com/liga-nos/startseite/wettbewerb/PO1', # Portugal Premier League
-    'https://www.transfermarkt.com/premier-liga/startseite/wettbewerb/UKR1', # Ukraine Premier League
-    'https://www.transfermarkt.com/premier-liga/startseite/wettbewerb/RU1', # Russian Premier League
-    'https://www.transfermarkt.com/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1', # Brazilian League
-    'https://www.transfermarkt.com/superliga/startseite/wettbewerb/AR1N', # Argentinian League
-    'https://www.transfermarkt.com/superligaen/startseite/wettbewerb/DK1', # Dannish League
-    'https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/A1', # Austrian Bundersliga
-    'https://www.transfermarkt.com/allsvenskan/startseite/wettbewerb/SE1', # Swedish league
-    'https://www.transfermarkt.com/eliteserien/startseite/wettbewerb/NO1', # Norweigian league
-    'https://www.transfermarkt.com/scottish-premiership/startseite/wettbewerb/SC1', # Scottish Premiership
+    {'link': 'https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB1',  'name': 'Premier League'},
+    {'link': 'https://www.transfermarkt.com/championship/startseite/wettbewerb/GB2',  'name': 'English League 1'},
+    {'link': 'https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3',  'name': 'English League 2'},
+    {'link': 'https://www.transfermarkt.com/league-two/startseite/wettbewerb/GB4',  'name': 'English League 3'},
+    {'link': 'https://www.transfermarkt.com/ligue-1/startseite/wettbewerb/FR1',  'name': 'French League 1'},
+    {'link': 'https://www.transfermarkt.com/ligue-2/startseite/wettbewerb/FR2',  'name': 'French League 2'},
+    {'link': 'https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/L1',  'name': 'German Bundersliga'},
+    {'link': 'https://www.transfermarkt.com/2-bundesliga/startseite/wettbewerb/L2',  'name': 'Bundersliga 2'},
+    {'link': 'https://www.transfermarkt.com/serie-a/startseite/wettbewerb/IT1',  'name': 'Italy Series A'},
+    {'link': 'https://www.transfermarkt.com/laliga/startseite/wettbewerb/ES1',  'name': 'La Liga'},
+    {'link': 'https://www.transfermarkt.com/jupiler-pro-league/startseite/wettbewerb/BE1',  'name': 'Belgium Jupiter League'},
+    {'link': 'https://www.transfermarkt.com/eredivisie/startseite/wettbewerb/NL1',  'name': 'Dutch Eredevise'},
+    {'link': 'https://www.transfermarkt.com/liga-nos/startseite/wettbewerb/PO1',  'name': 'Portugal Premier League'},
+    {'link': 'https://www.transfermarkt.com/premier-liga/startseite/wettbewerb/UKR1',  'name': 'Ukraine Premier League'},
+    {'link': 'https://www.transfermarkt.com/premier-liga/startseite/wettbewerb/RU1',  'name': 'Russian Premier League'},
+    {'link': 'https://www.transfermarkt.com/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1',  'name': 'Brazilian League'},
+    {'link': 'https://www.transfermarkt.com/superliga/startseite/wettbewerb/AR1N',  'name': 'Argentinian League'},
+    {'link': 'https://www.transfermarkt.com/superligaen/startseite/wettbewerb/DK1',  'name': 'Dannish League'},
+    {'link': 'https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/A1',  'name': 'Austrian Bundersliga'},
+    {'link': 'https://www.transfermarkt.com/allsvenskan/startseite/wettbewerb/SE1',  'name': 'Swedish league'},
+    {'link': 'https://www.transfermarkt.com/eliteserien/startseite/wettbewerb/NO1',  'name': 'Norweigian league'},
+    {'link': 'https://www.transfermarkt.com/scottish-premiership/startseite/wettbewerb/SC1','name': 'Scottish Premiership'}
 ]
 
 DEBUT_PLAYER_LINKS = [

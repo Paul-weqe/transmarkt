@@ -4,24 +4,8 @@
 
 {% block body %}
 
-<!-- <ul>
-{% for team in teams %}
-    <li>{{ team.name }}</li>
+{% for league in leagues %}
+    {{ league.name }}<br>
 {% endfor %}
-</ul> -->
-
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Link</th>
-    </tr>
-    
-    {% for team in teams %}
-        <tr>
-            <td>{{ team.name }}</td>
-            <td><a href="https://www.transfermarkt.com/{{ team.link }}">{{ team.name }}</td>
-        </tr>
-    {% endfor %}
-</table>
 
 {% endblock body %}

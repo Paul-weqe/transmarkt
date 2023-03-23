@@ -35,5 +35,12 @@ class FetchLeagueSpider(BaseTransfermarktSpider):
                 'name': name,
                 'link': link
             }
+
     def fetch_urls(self) -> list:
-        return LEAGUES_LINKS
+
+        result = []
+        for x in LEAGUES_LINKS:
+            result.append(x['link'])
+            
+        return result
+

@@ -15,5 +15,7 @@ def crawl():
     yield runner.crawl(DetailedPlayersPlayerBaseSpider)
     reactor.stop()
 
-crawl()
-reactor.run()
+def collect_data():
+    crawl()
+    reactor.run()
+
